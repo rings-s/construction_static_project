@@ -23,7 +23,8 @@
 	  return () => clearInterval(featuredInterval);
 	});
 	
-	$: filteredPosts = BLOG_POSTS.filter(post => {
+	// Convert reactive statements to derived
+	let filteredPosts = $derived(BLOG_POSTS.filter(post => {
 	  const matchesCategory = selectedCategory === 'all' || post.categoryEn.toLowerCase().replace(' ', '-') === selectedCategory;
 	  const matchesSearch = searchQuery === '' || 
 		post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -33,9 +34,9 @@
 		post.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase())) ||
 		post.tagsEn.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
 	  return matchesCategory && matchesSearch;
-	});
+	}));
   
-	$: featuredPosts = getFeaturedPosts();
+	let featuredPosts = $derived(getFeaturedPosts());
   
 	function formatDate(dateString) {
 	  const date = new Date(dateString);
@@ -46,6 +47,15 @@
   
 	function getImageUrl(imageName) {
 	  return BLOG_IMAGES[imageName] || '/images/blog/default.png';
+	}
+
+	function getCategoryIcon(categoryEn) {
+	  switch(categoryEn) {
+		case 'Highway Engineering': return '🛣️';
+		case 'Traffic Engineering': return '🚦';
+		case 'Transport Planning': return '🗺️';
+		default: return '📝';
+	  }
 	}
   </script>
   
@@ -88,7 +98,7 @@
 		{#each ['📝', '🏗️', '🚧', '📊', '🛣️', '💡'] as icon, i}
 		  <g class="blog-icon-{i}">
 			<text x="{200 + i * 150}" y="{200 + Math.sin(i * 2) * 50}" 
-				  font-size="24" text-anchor="middle" opacity="0.7">
+				  font-size="32" text-anchor="middle" opacity="0.7">
 			  {icon}
 			  <animateTransform attributeName="transform" type="translate" 
 							  values="0,0; 0,-20; 0,0" dur="{4 + i * 0.5}s" repeatCount="indefinite"/>
@@ -145,17 +155,19 @@
 			  <div class="grid lg:grid-cols-2 gap-0">
 				
 				<!-- Image -->
-				<div class="relative h-64 lg:h-auto">
-				  <div class="w-full h-full bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-900/30 dark:to-emerald-800/30 flex items-center justify-center">
-					<div class="text-center">
-					  <div class="text-6xl mb-4">🏗️</div>
-					  <div class="text-emerald-600 dark:text-emerald-400 font-medium">
-						{post.category}
+				<div class="relative h-80 lg:h-auto">
+				  <div class="w-full h-full bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-900/30 dark:to-emerald-800/30 flex items-center justify-center overflow-hidden">
+					<div class="text-center transform group-hover:scale-110 transition-transform duration-500">
+					  <div class="text-[12rem] leading-none mb-4 filter drop-shadow-lg">
+						{getCategoryIcon(post.categoryEn)}
+					  </div>
+					  <div class="text-emerald-600 dark:text-emerald-400 font-bold text-lg bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm px-4 py-2 rounded-xl">
+						{($locale || 'en') === 'ar' ? post.category : post.categoryEn}
 					  </div>
 					</div>
 				  </div>
 				  <!-- Featured Badge -->
-				  <div class="absolute top-4 left-4 bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+				  <div class="absolute top-4 left-4 bg-emerald-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
 					{($locale || 'en') === 'ar' ? 'مميز' : 'Featured'}
 				  </div>
 				</div>
@@ -165,7 +177,7 @@
 				  
 				  <!-- Category & Meta -->
 				  <div class="flex items-center gap-4 mb-4">
-					<span class="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-sm font-medium rounded-full">
+					<span class="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-sm font-medium rounded-full">
 					  {($locale || 'en') === 'ar' ? post.category : post.categoryEn}
 					</span>
 					<div class="flex items-center text-slate-500 dark:text-slate-400 text-sm">
@@ -241,7 +253,7 @@
 			type="text"
 			placeholder={($locale || 'en') === 'ar' ? 'ابحث في المقالات...' : 'Search articles...'}
 			bind:value={searchQuery}
-			class="w-full pl-10 rtl:pr-10 rtl:pl-4 pr-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
+			class="w-full pl-10 rtl:pr-10 rtl:pl-4 pr-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-300"
 		  />
 		</div>
 		
@@ -271,7 +283,7 @@
 	  
 	  {#if filteredPosts.length === 0}
 		<div class="text-center py-12">
-		  <div class="text-6xl mb-6">🔍</div>
+		  <div class="text-8xl mb-6">🔍</div>
 		  <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">
 			{($locale || 'en') === 'ar' ? 'لم يتم العثور على مقالات' : 'No articles found'}
 		  </h3>
@@ -294,32 +306,30 @@
 			<article class={`group bg-white dark:bg-slate-900 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-slate-200 dark:border-slate-700 ${mounted ? 'animate-fade-in-up' : 'opacity-0'}`} style="animation-delay: {index * 0.1}s;">
 			  
 			  <!-- Image -->
-			  <div class="relative h-48 bg-gradient-to-br from-slate-200 to-slate-300 dark:from-slate-700 dark:to-slate-600 overflow-hidden">
+			  <div class="relative h-64 bg-gradient-to-br from-slate-200 to-slate-300 dark:from-slate-700 dark:to-slate-600 overflow-hidden">
 				<div class="w-full h-full flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
 				  <div class="text-center">
-					<div class="text-4xl mb-2">
-					  {post.categoryEn === 'Highway Engineering' ? '🛣️' : 
-					   post.categoryEn === 'Traffic Engineering' ? '🚦' : 
-					   post.categoryEn === 'Transport Planning' ? '🗺️' : '📝'}
+					<div class="text-[8rem] leading-none mb-2 filter drop-shadow-lg">
+					  {getCategoryIcon(post.categoryEn)}
 					</div>
-					<div class="text-xs text-slate-600 dark:text-slate-400 font-medium">
+					<div class="text-xs text-slate-600 dark:text-slate-400 font-medium bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm px-3 py-1 rounded-lg">
 					  {($locale || 'en') === 'ar' ? post.category : post.categoryEn}
 					</div>
 				  </div>
 				</div>
 				
 				<!-- Category Badge -->
-				<div class="absolute top-3 left-3 px-2 py-1 bg-emerald-600/90 backdrop-blur-sm text-white text-xs font-medium rounded-lg">
+				<div class="absolute top-3 left-3 px-3 py-1 bg-emerald-600/90 backdrop-blur-sm text-white text-xs font-medium rounded-lg">
 				  {($locale || 'en') === 'ar' ? post.category : post.categoryEn}
 				</div>
 				
 				<!-- Stats -->
 				<div class="absolute bottom-3 right-3 flex items-center gap-2">
-				  <div class="flex items-center px-2 py-1 bg-black/20 backdrop-blur-sm rounded-lg text-white text-xs">
+				  <div class="flex items-center px-2 py-1 bg-black/30 backdrop-blur-sm rounded-lg text-white text-xs">
 					<Eye class="w-3 h-3 mr-1 rtl:ml-1 rtl:mr-0" />
 					{post.views}
 				  </div>
-				  <div class="flex items-center px-2 py-1 bg-black/20 backdrop-blur-sm rounded-lg text-white text-xs">
+				  <div class="flex items-center px-2 py-1 bg-black/30 backdrop-blur-sm rounded-lg text-white text-xs">
 					<Heart class="w-3 h-3 mr-1 rtl:ml-1 rtl:mr-0" />
 					{post.likes}
 				  </div>
@@ -396,7 +406,7 @@
   <section class="py-24 bg-gradient-to-r from-emerald-600 to-slate-600">
 	<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 	  <div class="mb-8">
-		<div class="text-6xl mb-6">📧</div>
+		<div class="text-8xl mb-6">📧</div>
 		<h2 class="text-3xl lg:text-4xl font-bold text-white mb-4">
 		  {($locale || 'en') === 'ar' ? 'ابقَ مطلعاً على أحدث رؤانا' : 'Stay Updated with Our Latest Insights'}
 		</h2>
@@ -412,7 +422,7 @@
 		<input
 		  type="email"
 		  placeholder={($locale || 'en') === 'ar' ? 'أدخل بريدك الإلكتروني' : 'Enter your email'}
-		  class="flex-1 px-4 py-3 rounded-xl border-0 focus:ring-4 focus:ring-white/20 focus:outline-none text-slate-900"
+		  class="flex-1 px-4 py-3 rounded-xl border-0 focus:ring-4 focus:ring-white/20 focus:outline-none text-slate-900 placeholder-slate-500"
 		/>
 		<button class="bg-white text-emerald-600 px-6 py-3 rounded-xl font-semibold hover:bg-emerald-50 transition-colors shadow-lg">
 		  {($locale || 'en') === 'ar' ? 'اشترك' : 'Subscribe'}

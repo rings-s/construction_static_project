@@ -1,95 +1,157 @@
 <script>
 	import ServicePageLayout from '$lib/components/ServicePageLayout.svelte';
-	import { Leaf, Zap, Droplets, Wind, Sun, Recycle } from 'lucide-svelte';
 
 	const features = [
 		{
-			icon: Leaf,
 			title: "Green Infrastructure",
-			description: "Integration of sustainable materials, green corridors, and environmentally friendly construction practices."
+			titleAr: "البنية التحتية الخضراء",
+			description: "Integration of sustainable materials, green corridors, and biodiversity enhancement in transport projects.",
+			descriptionAr: "دمج المواد المستدامة والممرات الخضراء وتعزيز التنوع البيولوجي في مشاريع النقل",
+			image: '/images/features/green-infrastructure.jpg'
 		},
 		{
-			icon: Zap,
 			title: "Electric Vehicle Infrastructure",
-			description: "Comprehensive EV charging networks and infrastructure to support the transition to electric mobility."
+			titleAr: "بنية تحتية للمركبات الكهربائية",
+			description: "Design and planning of EV charging networks and supporting electrical infrastructure.",
+			descriptionAr: "تصميم وتخطيط شبكات شحن السيارات الكهربائية والبنية التحتية الكهربائية الداعمة",
+			image: '/images/features/electric-vehicle.jpg'
 		},
 		{
-			icon: Droplets,
+			title: "Active Transport",
+			titleAr: "النقل النشط",
+			description: "Comprehensive cycling and walking infrastructure promoting sustainable mobility choices.",
+			descriptionAr: "بنية تحتية شاملة للدراجات والمشي تعزز خيارات التنقل المستدام",
+			image: '/images/features/active-transport.jpg'
+		},
+		{
 			title: "Stormwater Management",
-			description: "Innovative stormwater management systems including permeable pavements and bioretention features."
+			titleAr: "إدارة مياه الأمطار",
+			description: "Sustainable drainage systems and water management integrated into transport infrastructure.",
+			descriptionAr: "أنظمة صرف مستدامة وإدارة المياه مدمجة في البنية التحتية للنقل",
+			image: '/images/features/stormwater-management.jpg'
 		},
 		{
-			icon: Wind,
-			title: "Carbon Footprint Reduction",
-			description: "Strategies and solutions to minimize greenhouse gas emissions and environmental impact."
+			title: "Circular Economy",
+			titleAr: "الاقتصاد الدائري",
+			description: "Material reuse strategies and sustainable construction practices reducing environmental impact.",
+			descriptionAr: "استراتيجيات إعادة استخدام المواد وممارسات البناء المستدامة التي تقلل التأثير البيئي",
+			image: '/images/features/circular-economy.jpg'
 		},
 		{
-			icon: Sun,
-			title: "Renewable Energy Integration",
-			description: "Solar-powered infrastructure and energy-efficient lighting systems for sustainable operations."
-		},
-		{
-			icon: Recycle,
-			title: "Circular Economy Principles",
-			description: "Material reuse and recycling strategies to minimize waste and promote sustainability."
+			title: "Carbon Reduction",
+			titleAr: "تقليل الكربون",
+			description: "Strategies to minimize carbon footprint through design optimization and material selection.",
+			descriptionAr: "استراتيجيات لتقليل البصمة الكربونية من خلال تحسين التصميم واختيار المواد",
+			image: '/images/features/carbon-reduction.jpg'
 		}
 	];
 
 	const benefits = [
-		"Reduce environmental impact and carbon emissions",
-		"Lower long-term operational and maintenance costs",
-		"Improve air quality and community health",
-		"Support climate resilience and adaptation",
-		"Enhance project sustainability ratings",
-		"Future-proof infrastructure investments"
+		"Reduced environmental impact and carbon footprint",
+		"Enhanced biodiversity and ecosystem services",
+		"Improved air and water quality",
+		"Long-term cost savings through sustainable practices",
+		"Compliance with environmental regulations",
+		"Enhanced community health and wellbeing"
+	];
+
+	const benefitsAr = [
+		"تقليل التأثير البيئي والبصمة الكربونية",
+		"تعزيز التنوع البيولوجي وخدمات النظام البيئي",
+		"تحسين جودة الهواء والماء",
+		"توفير التكاليف طويلة المدى من خلال الممارسات المستدامة",
+		"الامتثال للوائح البيئية",
+		"تعزيز صحة المجتمع ورفاهيته"
 	];
 
 	const process = [
-		{ title: "Sustainability Assessment", description: "Comprehensive environmental impact analysis and baseline assessment" },
-		{ title: "Green Design Development", description: "Integration of sustainable features and technologies into design" },
-		{ title: "Life Cycle Analysis", description: "Evaluation of long-term environmental and economic impacts" },
-		{ title: "Implementation & Monitoring", description: "Sustainable construction practices and performance monitoring" }
+		{ 
+			title: "Environmental Assessment", 
+			titleAr: "التقييم البيئي",
+			description: "Comprehensive environmental impact assessment and baseline studies",
+			descriptionAr: "تقييم شامل للتأثير البيئي ودراسات خط الأساس"
+		},
+		{ 
+			title: "Sustainable Design", 
+			titleAr: "التصميم المستدام",
+			description: "Integration of green principles into infrastructure design",
+			descriptionAr: "دمج المبادئ الخضراء في تصميم البنية التحتية"
+		},
+		{ 
+			title: "Stakeholder Engagement", 
+			titleAr: "إشراك أصحاب المصلحة",
+			description: "Community consultation and environmental authority coordination",
+			descriptionAr: "استشارة المجتمع وتنسيق السلطة البيئية"
+		},
+		{ 
+			title: "Monitoring & Evaluation", 
+			titleAr: "المراقبة والتقييم",
+			description: "Post-implementation environmental monitoring and performance evaluation",
+			descriptionAr: "المراقبة البيئية بعد التنفيذ وتقييم الأداء"
+		}
 	];
 
 	const caseStudies = [
 		{
-			title: "Eco-Highway Corridor",
-			description: "20-mile sustainable highway featuring solar lighting, EV charging, and wildlife crossings.",
-			location: "Rural-Urban Connector",
-			duration: "30 months",
-			team: "25 specialists"
+			title: "Green Corridor Development",
+			titleAr: "تطوير ممر أخضر",
+			description: "50km sustainable transport corridor with integrated cycling paths, EV charging, and biodiversity enhancement.",
+			descriptionAr: "ممر نقل مستدام بطول 50 كم مع مسارات دراجات مدمجة وشحن السيارات الكهربائية وتعزيز التنوع البيولوجي",
+			location: "Regional Network",
+			locationAr: "الشبكة الإقليمية",
+			duration: "36 months",
+			durationAr: "36 شهراً",
+			team: "15 specialists",
+			teamAr: "15 أخصائي",
+			image: '/images/projects/green-corridor.jpg'
 		},
 		{
-			title: "Green Transit Hub",
-			description: "Multi-modal transit center with green roof, rainwater harvesting, and zero-emission design.",
-			location: "Metropolitan Area",
-			duration: "18 months",
-			team: "15 specialists"
-		},
-		{
-			title: "Sustainable BRT System",
-			description: "Bus rapid transit system with electric buses, solar power, and green infrastructure elements.",
-			location: "Urban Corridor",
+			title: "Urban Sustainable Mobility",
+			titleAr: "التنقل المستدام الحضري",
+			description: "Comprehensive sustainable transport strategy for city center including BRT and cycling infrastructure.",
+			descriptionAr: "استراتيجية نقل مستدام شاملة لوسط المدينة تشمل النقل السريع بالحافلات وبنية تحتية للدراجات",
+			location: "Urban Center",
+			locationAr: "المركز الحضري",
 			duration: "24 months",
-			team: "20 specialists"
+			durationAr: "24 شهراً",
+			team: "10 specialists",
+			teamAr: "10 أخصائيين",
+			image: '/images/projects/sustainable-mobility.jpg'
+		},
+		{
+			title: "Eco-Industrial Access Road",
+			titleAr: "طريق وصول صناعي بيئي",
+			description: "Sustainable access road design for industrial park with focus on freight efficiency and environmental protection.",
+			descriptionAr: "تصميم طريق وصول مستدام للمنطقة الصناعية مع التركيز على كفاءة الشحن والحماية البيئية",
+			location: "Industrial Zone",
+			locationAr: "المنطقة الصناعية",
+			duration: "18 months",
+			durationAr: "18 شهراً",
+			team: "8 specialists",
+			teamAr: "8 أخصائيين",
+			image: '/images/projects/eco-industrial.jpg'
 		}
 	];
 
 	const stats = [
-		{ value: "60%", label: "CO2 Reduction Achieved" },
-		{ value: "100+", label: "MW Renewable Energy" },
-		{ value: "85%", label: "Material Recycling Rate" },
-		{ value: "50+", label: "LEED Projects" }
+		{ value: "75+", label: "Sustainable Projects", labelAr: "مشاريع مستدامة" },
+		{ value: "40%", label: "Carbon Reduction Achieved", labelAr: "تقليل الكربون المحقق" },
+		{ value: "25+", label: "EV Networks Designed", labelAr: "شبكات سيارات كهربائية مصممة" },
+		{ value: "500km", label: "Cycling Infrastructure", labelAr: "بنية تحتية للدراجات" }
 	];
 </script>
 
 <ServicePageLayout
 	title="Sustainable Transport"
-	subtitle="Eco-friendly transport solutions for a greener future"
-	description="Innovative sustainable transport solutions that reduce environmental impact while enhancing efficiency and accessibility through green technologies and sustainable design practices."
-	icon="🌱"
+	titleAr="النقل المستدام"
+	subtitle="Environmentally conscious transportation solutions for a greener future"
+	subtitleAr="حلول نقل واعية بيئياً لمستقبل أكثر خضرة"
+	description="Leading sustainable transport design services that integrate environmental protection, renewable energy, and green infrastructure into modern transportation systems."
+	descriptionAr="خدمات تصميم النقل المستدام الرائدة التي تدمج الحماية البيئية والطاقة المتجددة والبنية التحتية الخضراء في أنظمة النقل الحديثة"
+	heroImage="/images/services/sustainable-transport.jpg"
 	{features}
 	{benefits}
+	{benefitsAr}
 	{process}
 	{caseStudies}
 	{stats}
