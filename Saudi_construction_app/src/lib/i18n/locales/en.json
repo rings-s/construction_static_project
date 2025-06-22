@@ -1,0 +1,143 @@
+{
+	"nav": {
+		"home": "Home",
+		"about": "About",
+		"highway_engineering": "Highway Engineering",
+		"traffic_engineering": "Traffic Engineering",
+		"transport_planning": "Transport Planning",
+		"services": "Services",
+		"blog": "Blog",
+		"contact": "Contact",
+		"car_park_design": "Car Park Design",
+		"traffic_management_plans": "Traffic Management Plans",
+		"highway_junction_design": "Highway & Junction Design",
+		"sustainable_transport": "Sustainable Transport",
+		"traffic_modeling": "Traffic Modeling",
+		"traffic_assessment": "Traffic Assessment",
+		"traffic_impact_assessment": "Traffic Impact Assessment",
+		"its": "ITS (Intelligent Transport Systems)",
+		"road_safety_engineering": "Road Safety Engineering",
+		"traffic_management_initiative": "Traffic Management Initiative",
+		"swept_path_analysis": "Swept Path Analysis",
+		"site_access": "Site Access",
+		"transport_feasibility_studies": "Transport Feasibility Studies",
+		"master_planning": "Master Planning & Transport Design",
+		"technical_rebuttals": "Technical Rebuttals",
+		"transport_statement_assessment": "Transport Statement Assessment",
+		"travel_plan_development": "Travel Plan Development",
+		"industry_assessment": "Industry Assessment",
+		"public_consultation": "Public Consultation & Meeting"
+	},
+	"hero": {
+		"title": "Engineering Tomorrow's Transport Solutions",
+		"subtitle": "Leading transport and highway engineering consultancy delivering innovative solutions for sustainable infrastructure development",
+		"cta_primary": "Explore Our Services",
+		"cta_secondary": "Get In Touch"
+	},
+	"about": {
+		"title": "About Transport Consulting",
+		"subtitle": "Two decades of engineering excellence and innovation",
+		"hero_description": "Pioneering the future of transport engineering through innovation, expertise, and unwavering commitment to excellence.",
+		"company_intro": "Transport Consulting has a proven 20-year record in providing highway, transport, planning and design services to clients in the private and public sectors, nationally and internationally.",
+		"experience_text": "Our experience and knowledge have provided peace of mind to our clients in achieving their objectives with a quality output from start to completion.",
+		"mission_statement": "Transport Consulting aims to provide expert industry technical and design documents to assist and support our clients' projects. Our company ethos strives to provide worldwide knowledge and experience to our clients with exceptional customer service and professionalism key to our success.",
+		"partnership_text": "Transport Consulting works with you to ensure your project objective and vision come to fruition.",
+		"mission_title": "Our Mission",
+		"mission_text": "To deliver cutting-edge transport and highway engineering solutions that enhance connectivity, promote sustainability, and improve quality of life for communities worldwide.",
+		"vision_title": "Our Vision",
+		"vision_text": "To be the leading consultancy in transport engineering, recognized for innovation, technical excellence, and commitment to sustainable development.",
+		"values_title": "Our Core Values",
+		"values": {
+			"innovation": "Innovation in every project we undertake",
+			"sustainability": "Commitment to environmental responsibility",
+			"excellence": "Technical excellence and professional integrity",
+			"collaboration": "Collaborative approach with clients and stakeholders"
+		},
+		"experience_section": {
+			"title": "Two Decades of Excellence",
+			"years_experience": "20+ Years",
+			"projects_completed": "500+ Projects",
+			"global_reach": "Global Reach",
+			"client_satisfaction": "98% Satisfaction"
+		},
+		"testimonials": {
+			"title": "What Our Clients Say",
+			"subtitle": "Real feedback from satisfied clients who trust our expertise",
+			"testimonial_1": "Excellent and very professional service provided by Transport Consulting to support our Local Plan objection. Efficient data collection with robust analysis and clear presentation in a comprehensive technical report; all completed within a very tight timescale.",
+			"testimonial_2": "Our Grassroots football club have made an application to build a clubhouse to improve facilities. The project has some complicated objections around car parking and traffic management. As a club we had no experience or knowledge with regards to this and needed a consultant to work with. I approached Kevin and from the outset it felt like he understood our needs, talked us through the process, created a high quality piece of work and met all deadlines asked of him. We are grateful for all of the work and support given to us and wouldn't hesitate to recommend Transport Consulting for this kind of work.",
+			"client_1_name": "Planning Director",
+			"client_1_company": "Urban Development Authority",
+			"client_2_name": "Club Chairman",
+			"client_2_company": "Grassroots Football Club"
+		}
+	},
+	"services": {
+		"highway_engineering": {
+			"title": "Highway Engineering",
+			"description": "Comprehensive highway design and engineering services for modern infrastructure development."
+		},
+		"traffic_engineering": {
+			"title": "Traffic Engineering",
+			"description": "Advanced traffic engineering solutions for complex transportation challenges."
+		},
+		"transport_planning": {
+			"title": "Transport Planning",
+			"description": "Strategic transport planning services for sustainable and efficient mobility solutions."
+		}
+	},
+	"pages": {
+		"features_capabilities": "Key Features & Capabilities",
+		"features_subtitle": "Comprehensive solutions designed to meet your specific requirements",
+		"why_choose": "Why Choose Our Services?",
+		"why_choose_subtitle": "Our expert team delivers exceptional results through proven methodologies and innovative approaches.",
+		"our_process": "Our Process",
+		"process_subtitle": "A systematic approach ensuring quality and efficiency at every step",
+		"success_stories": "Success Stories",
+		"success_stories_subtitle": "Real projects showcasing our expertise and proven results",
+		"ready_to_start": "Ready to Get Started?",
+		"ready_subtitle": "Let our expert team help you achieve your project goals with innovative solutions.",
+		"start_project": "Start Your Project",
+		"learn_more_about_us": "Learn More About Us",
+		"successful_projects": "Successful Projects",
+		"location": "Location",
+		"duration": "Duration",
+		"team": "Team"
+	},
+	"contact": {
+		"title": "Contact Us",
+		"subtitle": "Get in touch with our expert team",
+		"form": {
+			"name": "Full Name",
+			"email": "Email Address",
+			"phone": "Phone Number",
+			"subject": "Subject",
+			"message": "Message",
+			"submit": "Send Message"
+		},
+		"info": {
+			"address": "123 Engineering Boulevard, Tech City, TC 12345",
+			"phone": "+1 (555) 123-4567",
+			"email": "info@transportconsulting.com",
+			"hours": "Mon - Fri: 9:00 AM - 6:00 PM"
+		}
+	},
+	"footer": {
+		"company_description": "Leading transport and highway engineering consultancy delivering innovative solutions for sustainable infrastructure development.",
+		"quick_links": "Quick Links",
+		"services_links": "Services",
+		"contact_info": "Contact Information",
+		"rights_reserved": "All rights reserved.",
+		"privacy_policy": "Privacy Policy",
+		"terms_of_service": "Terms of Service"
+	},
+	"theme": {
+		"toggle": "Toggle theme",
+		"light": "Light mode",
+		"dark": "Dark mode"
+	},
+	"language": {
+		"toggle": "Change language",
+		"en": "English",
+		"ar": "العربية"
+	}
+}
