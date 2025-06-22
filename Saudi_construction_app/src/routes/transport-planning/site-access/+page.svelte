@@ -1,96 +1,103 @@
+<!-- src/routes/transport-planning/site-access/+page.svelte -->
 <script>
 	import ServicePageLayout from '$lib/components/ServicePageLayout.svelte';
 	import { Route, Target, Shield, BarChart3, Users, Settings } from 'lucide-svelte';
-
+  
 	const features = [
-		{
-			icon: Route,
-			title: "Optimal Access Design",
-			description: "Strategic design of site access points to ensure safe and efficient connectivity to existing road networks."
-		},
-		{
-			icon: Target,
-			title: "Sight Distance Analysis",
-			description: "Comprehensive sight distance studies ensuring safe turning movements and adequate visibility."
-		},
-		{
-			icon: Shield,
-			title: "Safety Assessment",
-			description: "Detailed safety analysis of proposed access points including conflict point evaluation."
-		},
-		{
-			icon: BarChart3,
-			title: "Capacity Analysis",
-			description: "Traffic capacity analysis to ensure access points can handle projected traffic volumes."
-		},
-		{
-			icon: Users,
-			title: "Multi-Modal Integration",
-			description: "Integration of pedestrian, cyclist, and public transport access requirements."
-		},
-		{
-			icon: Settings,
-			title: "Regulatory Compliance",
-			description: "Ensuring compliance with local access management policies and design standards."
-		}
+	  {
+		icon: Route,
+		title: "تصميم الوصول الأمثل",
+		titleEn: "Optimal Access Design",
+		description: "تصميم استراتيجي لنقاط الوصول للموقع لضمان الاتصال الآمن والفعال بشبكات الطرق الموجودة"
+	  },
+	  {
+		icon: Target,
+		title: "تحليل مسافة الرؤية",
+		titleEn: "Sight Distance Analysis", 
+		description: "دراسات شاملة لمسافة الرؤية لضمان حركات الدوران الآمنة والرؤية الكافية"
+	  },
+	  {
+		icon: Shield,
+		title: "تقييم السلامة",
+		titleEn: "Safety Assessment",
+		description: "تحليل مفصل للسلامة لنقاط الوصول المقترحة بما في ذلك تقييم نقاط التضارب"
+	  },
+	  {
+		icon: BarChart3,
+		title: "تحليل السعة",
+		titleEn: "Capacity Analysis",
+		description: "تحليل السعة المرورية لضمان قدرة نقاط الوصول على التعامل مع أحجام المرور المتوقعة"
+	  },
+	  {
+		icon: Users,
+		title: "التكامل متعدد الوسائط",
+		titleEn: "Multi-Modal Integration",
+		description: "دمج متطلبات الوصول للمشاة والدراجات والنقل العام"
+	  },
+	  {
+		icon: Settings,
+		title: "الامتثال التنظيمي",
+		titleEn: "Regulatory Compliance",
+		description: "ضمان الامتثال لسياسات إدارة الوصول المحلية ومعايير التصميم"
+	  }
 	];
-
+  
 	const benefits = [
-		"Ensure safe and efficient site connectivity",
-		"Minimize impact on existing traffic operations",
-		"Comply with regulatory requirements",
-		"Optimize development potential",
-		"Reduce long-term operational issues",
-		"Support sustainable transport modes"
+	  "ضمان الاتصال الآمن والفعال للموقع",
+	  "تقليل التأثير على عمليات المرور الحالية", 
+	  "الامتثال للمتطلبات التنظيمية",
+	  "تحسين إمكانات التطوير",
+	  "تقليل المشاكل التشغيلية طويلة المدى",
+	  "دعم أساليب النقل المستدامة"
 	];
-
+  
 	const process = [
-		{ title: "Site Evaluation", description: "Comprehensive assessment of site conditions and constraints" },
-		{ title: "Access Strategy", description: "Development of optimal access strategy and layout design" },
-		{ title: "Impact Assessment", description: "Analysis of impacts on existing road network operations" },
-		{ title: "Design Finalization", description: "Detailed design development and approval documentation" }
+	  { title: "تقييم الموقع", description: "تقييم شامل لظروف الموقع والقيود" },
+	  { title: "استراتيجية الوصول", description: "تطوير استراتيجية الوصول المثلى وتصميم التخطيط" },
+	  { title: "تقييم التأثير", description: "تحليل التأثيرات على عمليات شبكة الطرق الحالية" },
+	  { title: "وضع اللمسات الأخيرة على التصميم", description: "تطوير التصميم المفصل ووثائق الموافقة" }
 	];
-
+  
 	const caseStudies = [
-		{
-			title: "Commercial Development Access",
-			description: "Multi-point access design for large commercial development with coordinated signal timing.",
-			location: "Major Arterial",
-			duration: "6 months",
-			team: "6 specialists"
-		},
-		{
-			title: "Industrial Facility Access",
-			description: "Heavy vehicle access design for manufacturing facility with dedicated turning lanes.",
-			location: "Industrial Zone",
-			duration: "4 months",
-			team: "4 specialists"
-		},
-		{
-			title: "Residential Community Access",
-			description: "Safe access design for 800-unit residential community with emergency vehicle considerations.",
-			location: "Suburban Area",
-			duration: "5 months",
-			team: "5 specialists"
-		}
+	  {
+		title: "وصول التطوير التجاري",
+		description: "تصميم الوصول متعدد النقاط للتطوير التجاري الكبير مع توقيت الإشارات المنسق",
+		location: "شارع رئيسي",
+		duration: "6 أشهر",
+		team: "6 متخصصين"
+	  },
+	  {
+		title: "وصول المنشأة الصناعية", 
+		description: "تصميم وصول المركبات الثقيلة للمنشأة التصنيعية مع ممرات دوران مخصصة",
+		location: "المنطقة الصناعية",
+		duration: "4 أشهر", 
+		team: "4 متخصصين"
+	  },
+	  {
+		title: "وصول المجتمع السكني",
+		description: "تصميم وصول آمن للمجتمع السكني المكون من 800 وحدة مع اعتبارات مركبات الطوارئ",
+		location: "المنطقة الضاحية",
+		duration: "5 أشهر",
+		team: "5 متخصصين"
+	  }
 	];
-
+  
 	const stats = [
-		{ value: "300+", label: "Access Designs" },
-		{ value: "99%", label: "Approval Success" },
-		{ value: "Zero", label: "Safety Issues" },
-		{ value: "95%", label: "Client Satisfaction" }
+	  { value: "300+", label: "تصاميم الوصول" },
+	  { value: "99%", label: "نجاح الموافقة" },
+	  { value: "صفر", label: "مشاكل السلامة" },
+	  { value: "95%", label: "رضا العملاء" }
 	];
-</script>
-
-<ServicePageLayout
-	title={$_('nav.site_access')}
-	subtitle="Optimal site access design for safe and efficient connectivity"
-	description="Professional site access design services ensuring safe, efficient, and compliant connections between developments and existing transportation networks."
+  </script>
+  
+  <ServicePageLayout
+	title={($locale || 'en') === 'ar' ? 'الوصول للموقع' : 'Site Access'}
+	subtitle={($locale || 'en') === 'ar' ? 'تصميم الوصول الأمثل للموقع للاتصال الآمن والفعال' : 'Optimal site access design for safe and efficient connectivity'}
+	description={($locale || 'en') === 'ar' ? 'خدمات تصميم الوصول للموقع المهنية لضمان اتصالات آمنة وفعالة ومتوافقة بين التطويرات وشبكات النقل الحالية' : 'Professional site access design services ensuring safe, efficient, and compliant connections between developments and existing transportation networks'}
 	icon="🛤️"
 	{features}
 	{benefits}
 	{process}
 	{caseStudies}
 	{stats}
-/>
+  />
