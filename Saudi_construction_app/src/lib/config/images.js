@@ -55,7 +55,23 @@ export const SERVICE_IMAGES = {
     'active-transport': '/images/features/active-transport.jpg',
     'stormwater-management': '/images/features/stormwater-management.jpg',
     'circular-economy': '/images/features/circular-economy.jpg',
-    'carbon-reduction': '/images/features/carbon-reduction.jpg'
+    'carbon-reduction': '/images/features/carbon-reduction.jpg',
+
+
+
+    // Additional service images for transport planning
+    'route-planning': '/images/services/route-planning.jpg',
+    'feasibility-analysis': '/images/services/feasibility-analysis.jpg',
+    'site-assessment': '/images/services/site-assessment.jpg',
+    'success-metrics': '/images/services/success-metrics.jpg',
+
+
+    // site-access
+    'site-access-excellence': '/images/services/site-access-excellence.jpg',
+
+
+
+
   };
   
   export const PROJECT_IMAGES = {
@@ -79,7 +95,13 @@ export const SERVICE_IMAGES = {
     'roundabout-conversion': '/images/projects/roundabout-conversion.jpg',
     'green-corridor': '/images/projects/green-corridor.jpg',
     'sustainable-mobility': '/images/projects/sustainable-mobility.jpg',
-    'eco-industrial': '/images/projects/eco-industrial.jpg'
+    'eco-industrial': '/images/projects/eco-industrial.jpg',
+
+    // Case studies images  
+    'torrington-dwelling': '/images/case-studies/torrington-dwelling.jpg',
+    'colchester-commercial': '/images/case-studies/colchester-commercial.jpg',
+    'australia-hospital': '/images/case-studies/australia-hospital.jpg',
+        
   };
   
   export const BACKGROUND_IMAGES = {
@@ -92,6 +114,20 @@ export const SERVICE_IMAGES = {
     'urban-development': '/images/backgrounds/urban-development.jpg',
     'sustainable-transport-bg': '/images/backgrounds/sustainable-transport.jpg'
   };
+
+
+
+  export const FEATURE_IMAGES = {
+    // Site Access Features
+    'site-access-design': '/images/features/site-access-design.jpg',
+    'visibility-analysis': '/images/features/visibility-analysis.jpg',
+    'swept-path-analysis': '/images/features/swept-path-analysis.jpg',
+    'safety-assessment': '/images/features/safety-assessment.jpg',
+    'due-diligence': '/images/features/due-diligence.jpg',
+    'capacity-analysis': '/images/features/capacity-analysis.jpg',
+    
+    // ... add more feature images as needed
+};
   
   // Helper function to get service image
   export function getServiceImage(serviceKey) {

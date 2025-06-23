@@ -1,7 +1,8 @@
 // src/lib/config/app.js
 // src/lib/config/app.js
 export const APP_CONFIG = {
-    name: "Ayen Consulting KSA",
+    name: "اسم الشركه",
+    nameEn:"Company name",
     tagline: "استشاريو تخطيط النقل",
     taglineEn: "Transport Planning Consultants", 
     description: "استشاريو تخطيط النقل للقطاعين الخاص والعام",
@@ -13,7 +14,7 @@ export const APP_CONFIG = {
     contact: {
       phone: "+966 11 234 5678",
       mobile: "+966 50 123 4567", 
-      email: "info@ayenconsulting-ksa.com",
+      email: "info@AhmedBashir-ksa.com",
       address: "مركز الملك عبدالله المالي، الرياض، المملكة العربية السعودية",
       addressEn: "King Abdullah Financial District, Riyadh, Kingdom of Saudi Arabia",
       hours: "الأحد - الخميس: 8:00 ص - 5:00 م",
@@ -71,31 +72,48 @@ export const COMPANY_STATS = [
   }];
   
   // Translated Testimonials
+// Updated Testimonials with Saudi Arabian clients
 export const TESTIMONIALS = [
-  {
-    content: "خدمة ممتازة ومهنية جداً قدمتها Ayen Consulting لدعم اعتراضنا على الخطة المحلية. جمع بيانات فعال مع تحليل قوي وعرض واضح في تقرير تقني شامل؛ كل ذلك تم إنجازه في إطار زمني ضيق جداً.",
-    contentEn: "Excellent and very professional service provided by Ayen Consulting to support our Local Plan objection. Efficient data collection with robust analysis and clear presentation in a comprehensive technical report; all completed within a very tight timescale.",
-    author: "Andrew Guttridge", 
-    company: "Bildeston Parish Council, Suffolk, UK",
-    rating: 5,
-    avatar: "👨‍💼"
-  },
-  {
-    content: "تقدم نادي كرة القدم الشعبي الخاص بنا بطلب لبناء نادي لتحسين المرافق. المشروع له اعتراضات معقدة حول مواقف السيارات وإدارة المرور. كنادي لم تكن لدينا خبرة أو معرفة بهذا الأمر واحتجنا إلى استشاري للعمل معه. تواصلت مع Kevin ومن البداية شعرت أنه فهم احتياجاتنا.",
-    contentEn: "Our Grassroots football club have made an application to build a clubhouse to improve facilities. The project has some complicated objections around car parking and traffic management. As a club we had no experience or knowledge with regards to this and needed a consultant to work with. I approached Kevin and from the outset it felt like he understood our needs.",
-    author: "Andy Stopps",
-    company: "Wingerworth Junior Sports Association, North East Derbyshire, UK", 
-    rating: 5,
-    avatar: "⚽"
-  },
-  {
-    content: "خدمة رائعة ورسوم هندسية احترافية رائعة.",
-    contentEn: "Great service and fantastic professional drawings.",
-    author: "James Barker",
-    company: "Colchester, Essex, UK",
-    rating: 5,
-    avatar: "🎨"
-  }
+	{
+		content: "خدمة ممتازة ومهنية جداً قدمتها شركتنا لدعم مشروع الطرق الجديد. جمع بيانات فعال مع تحليل قوي وعرض واضح في تقرير تقني شامل؛ كل ذلك تم إنجازه في إطار زمني ضيق جداً.",
+		contentEn: "Excellent and very professional service provided by our company to support the new highway project. Efficient data collection with robust analysis and clear presentation in a comprehensive technical report; all completed within a very tight timescale.",
+		author: "أحمد الغامدي", 
+		company: "مجلس منطقة الرياض، المملكة العربية السعودية",
+		rating: 5,
+		avatar: "👨‍💼"
+	},
+	{
+		content: "تقدم نادي كرة القدم الخاص بنا بطلب لبناء مرافق رياضية جديدة. المشروع له تحديات معقدة حول مواقف السيارات وإدارة المرور. كنادي لم تكن لدينا خبرة أو معرفة بهذا الأمر واحتجنا إلى استشاري للعمل معه. تواصلت مع الفريق ومن البداية شعرت أنهم فهموا احتياجاتنا.",
+		contentEn: "Our football club submitted an application to build new sports facilities. The project has some complicated challenges around car parking and traffic management. As a club we had no experience or knowledge with regards to this and needed a consultant to work with. I approached the team and from the outset it felt like they understood our needs.",
+		author: "محمد السعيد",
+		company: "نادي الشباب الرياضي، جدة، المملكة العربية السعودية", 
+		rating: 5,
+		avatar: "⚽"
+	},
+	{
+		content: "خدمة رائعة ورسوم هندسية احترافية ممتازة للمشروع الحضري الجديد.",
+		contentEn: "Great service and fantastic professional drawings for the new urban development project.",
+		author: "سارة القحطاني",
+		company: "شركة التطوير العمراني، الدمام، المملكة العربية السعودية",
+		rating: 5,
+		avatar: "🏗️"
+	},
+	{
+		content: "تخطيط ممتاز للنقل وحلول مبتكرة لمشروع توسعة الطرق في المنطقة الشرقية. فريق محترف جداً والنتائج فاقت التوقعات.",
+		contentEn: "Excellent transport planning and innovative solutions for the road expansion project in the Eastern Province. Very professional team and results exceeded expectations.",
+		author: "خالد العتيبي",
+		company: "هيئة تطوير المنطقة الشرقية، الخبر، المملكة العربية السعودية",
+		rating: 5,
+		avatar: "🛣️"
+	},
+	{
+		content: "استشارة ممتازة في تخطيط وتصميم شبكة النقل للمدينة الاقتصادية الجديدة. خبرة تقنية عالية والتزام بالمواعيد المحددة.",
+		contentEn: "Excellent consultation in planning and designing the transport network for the new economic city. High technical expertise and commitment to specified deadlines.",
+		author: "نورا الشمري",
+		company: "الهيئة العامة للطرق، الرياض، المملكة العربية السعودية",
+		rating: 5,
+		avatar: "👩‍💼"
+	}
 ];
 
   // Navigation structure with sub-menus
