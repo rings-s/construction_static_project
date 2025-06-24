@@ -4,20 +4,20 @@
 	import { locale } from 'svelte-i18n';
 	import { MapPin, Phone, Mail, Clock, Send, CheckCircle, Building2, Users, Award, ArrowRight, Star, Globe } from 'lucide-svelte';
 	import { APP_CONFIG } from '$lib/config/app.js';
-	import { fly, fade, scale } from 'svelte/transition';
 	
 	let mounted = $state(false);
 	let visibleSections = $state(new Set());
 	let mousePosition = $state({ x: 0, y: 0 });
 	let particles = $state([]);
 	
-	let formData = {
+	// Fix: Use $state for formData
+	let formData = $state({
 		name: '',
 		email: '',
 		phone: '',
 		subject: '',
 		message: ''
-	};
+	});
 	
 	let isSubmitting = $state(false);
 	let isSubmitted = $state(false);
@@ -86,28 +86,28 @@
 
 	const contactInfo = [
 		{
-			icon: MapPin,
+			icon: 'mappin',
 			title: ($locale || 'en') === 'ar' ? 'مكتبنا الرئيسي' : 'Head Office',
 			content: ($locale || 'en') === 'ar' ? companyLocation.fullAddress : companyLocation.fullAddressEn,
 			href: `https://maps.google.com/?q=${companyLocation.lat},${companyLocation.lng}`,
 			color: 'from-emerald-500 to-blue-600'
 		},
 		{
-			icon: Phone,
+			icon: 'phone',
 			title: ($locale || 'en') === 'ar' ? 'اتصل بنا' : 'Call Us',
 			content: '+966 11 123 4567',
 			href: 'tel:+966111234567',
 			color: 'from-blue-500 to-purple-600'
 		},
 		{
-			icon: Mail,
+			icon: 'mail',
 			title: ($locale || 'en') === 'ar' ? 'راسلنا' : 'Email Us',
 			content: 'info@transportengineering.sa',
 			href: 'mailto:info@transportengineering.sa',
 			color: 'from-purple-500 to-emerald-600'
 		},
 		{
-			icon: Clock,
+			icon: 'clock',
 			title: ($locale || 'en') === 'ar' ? 'ساعات العمل' : 'Working Hours',
 			content: ($locale || 'en') === 'ar' ? 'الأحد - الخميس: 8:00 ص - 6:00 م' : 'Sunday - Thursday: 8:00 AM - 6:00 PM',
 			href: null,
@@ -117,19 +117,19 @@
 
 	const whyContactUs = [
 		{
-			icon: Building2,
+			icon: 'building',
 			title: ($locale || 'en') === 'ar' ? 'خبرة 25+ عامًا' : '25+ Years Experience',
 			description: ($locale || 'en') === 'ar' ? 'خبرة واسعة في مشاريع النقل والطرق السريعة في المملكة' : 'Extensive experience in transport and highway projects across the Kingdom',
 			color: 'from-emerald-500 to-blue-600'
 		},
 		{
-			icon: Users,
+			icon: 'users',
 			title: ($locale || 'en') === 'ar' ? 'فريق متخصص' : 'Expert Team',
 			description: ($locale || 'en') === 'ar' ? 'مهندسون ومخططون معتمدون من أفضل الجامعات' : 'Certified engineers and planners from top universities',
 			color: 'from-blue-500 to-purple-600'
 		},
 		{
-			icon: Award,
+			icon: 'award',
 			title: ($locale || 'en') === 'ar' ? 'جودة مضمونة' : 'Quality Guaranteed',
 			description: ($locale || 'en') === 'ar' ? 'التزام بأعلى معايير الجودة والمعايير الدولية' : 'Commitment to highest quality standards and international best practices',
 			color: 'from-purple-500 to-emerald-600'
@@ -206,6 +206,19 @@
 		if (!mounted || !mouseX || !mouseY) return '';
 		return `transform: translate(${mouseX * multiplier * 0.1}px, ${mouseY * multiplier * 0.1}px);`;
 	}
+
+	function getIconComponent(iconType) {
+		switch(iconType) {
+			case 'mappin': return MapPin;
+			case 'phone': return Phone;
+			case 'mail': return Mail;
+			case 'clock': return Clock;
+			case 'building': return Building2;
+			case 'users': return Users;
+			case 'award': return Award;
+			default: return MapPin;
+		}
+	}
 </script>
 
 <svelte:head>
@@ -222,48 +235,6 @@
 		<div class="absolute top-20 left-20 w-96 h-96 bg-gradient-to-r from-emerald-400/20 to-blue-500/20 rounded-full blur-3xl animate-float-slow" style={getParallaxStyle(mousePosition.x, mousePosition.y, 0.5)}></div>
 		<div class="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-r from-blue-400/20 to-emerald-500/20 rounded-full blur-3xl animate-float-reverse" style={getParallaxStyle(mousePosition.x, mousePosition.y, -0.3)}></div>
 		<div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-emerald-400/10 to-blue-500/10 rounded-full blur-3xl animate-pulse-subtle"></div>
-		
-		<!-- Contact Network SVG -->
-		<svg class="absolute inset-0 w-full h-full opacity-20 dark:opacity-10" viewBox="0 0 1200 800">
-			<defs>
-				<pattern id="contactGrid" width="100" height="100" patternUnits="userSpaceOnUse">
-					<circle cx="50" cy="50" r="2" fill="currentColor" opacity="0.4">
-						<animate attributeName="r" values="1;3;1" dur="4s" repeatCount="indefinite"/>
-					</circle>
-					<path d="M 100 0 L 0 0 0 100" fill="none" stroke="currentColor" stroke-width="0.3" opacity="0.2"/>
-				</pattern>
-				<linearGradient id="contactWave" x1="0%" y1="0%" x2="100%" y2="0%">
-					<stop offset="0%" style="stop-color:#10b981;stop-opacity:0.6"/>
-					<stop offset="50%" style="stop-color:#3b82f6;stop-opacity:0.8"/>
-					<stop offset="100%" style="stop-color:#10b981;stop-opacity:0.6"/>
-				</linearGradient>
-			</defs>
-			
-			<rect width="100%" height="100%" fill="url(#contactGrid)" />
-			
-			<!-- Communication Network -->
-			<g class="contact-center" transform="translate(600,400)">
-				<circle r="40" fill="url(#contactWave)" opacity="0.8">
-					<animate attributeName="r" values="40;50;40" dur="3s" repeatCount="indefinite"/>
-				</circle>
-				<text x="0" y="8" text-anchor="middle" font-size="24" opacity="0.9">🏢</text>
-				
-				<!-- Connection Lines to Contact Points -->
-				{#each Array(6) as _, i}
-					<g transform="rotate({i * 60})">
-						<line x1="50" y1="0" x2="150" y2="0" stroke="url(#contactWave)" stroke-width="2" opacity="0.5">
-							<animate attributeName="opacity" values="0.3;0.8;0.3" dur="{2 + i * 0.3}s" repeatCount="indefinite"/>
-						</line>
-						<circle cx="160" cy="0" r="15" fill="url(#contactWave)" opacity="0.7">
-							<animate attributeName="r" values="15;20;15" dur="{3 + i * 0.2}s" repeatCount="indefinite"/>
-						</circle>
-						<text x="160" y="6" text-anchor="middle" font-size="14" opacity="0.8">
-							{i % 4 === 0 ? '📧' : i % 4 === 1 ? '📞' : i % 4 === 2 ? '🗺️' : '💬'}
-						</text>
-					</g>
-				{/each}
-			</g>
-		</svg>
 		
 		<!-- Floating Particles -->
 		{#if mounted}
@@ -378,20 +349,6 @@
 			<!-- Enhanced Contact Form -->
 			<div class={`${isVisible('contact-section') ? 'animate-fade-in-up-advanced' : 'opacity-0'}`}>
 				<div class="bg-slate-50/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-slate-200/50 dark:border-slate-700/50 relative overflow-hidden">
-					
-					<!-- Advanced Background Pattern -->
-					<div class="absolute inset-0 opacity-5">
-						<svg class="w-full h-full" viewBox="0 0 400 400">
-							<defs>
-								<pattern id="formPattern" width="40" height="40" patternUnits="userSpaceOnUse">
-									<circle cx="20" cy="20" r="2" fill="currentColor" opacity="0.3">
-										<animate attributeName="r" values="1;3;1" dur="4s" repeatCount="indefinite"/>
-									</circle>
-								</pattern>
-							</defs>
-							<rect width="400" height="400" fill="url(#formPattern)"/>
-						</svg>
-					</div>
 					
 					<div class="relative z-10">
 						<div class="text-center mb-8">
@@ -581,7 +538,13 @@
 						{#each whyContactUs as item, index}
 							<div class={`flex items-start p-6 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200/50 dark:border-slate-700/50 hover:scale-105 ${mounted ? 'animate-fade-in-up-advanced' : 'opacity-0'}`} style="animation-delay: {index * 0.1}s;">
 								<div class={`w-14 h-14 bg-gradient-to-r ${item.color} rounded-xl flex items-center justify-center mr-4 rtl:ml-4 rtl:mr-0 shadow-lg`}>
-									<svelte:component this={item.icon} class="w-7 h-7 text-white" />
+									{#if item.icon === 'building'}
+										<Building2 class="w-7 h-7 text-white" />
+									{:else if item.icon === 'users'}
+										<Users class="w-7 h-7 text-white" />
+									{:else if item.icon === 'award'}
+										<Award class="w-7 h-7 text-white" />
+									{/if}
 								</div>
 								<div>
 									<h4 class="font-black text-slate-900 dark:text-white mb-2">{item.title}</h4>
@@ -598,7 +561,15 @@
 						<div class={`bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-2xl shadow-xl p-6 border border-slate-200/50 dark:border-slate-700/50 hover:shadow-2xl transition-all duration-300 hover:scale-105 ${mounted ? 'animate-fade-in-up-advanced' : 'opacity-0'}`} style="animation-delay: {index * 0.1 + 0.3}s;">
 							<div class="flex items-start">
 								<div class={`w-14 h-14 bg-gradient-to-r ${info.color} rounded-xl flex items-center justify-center mr-4 rtl:ml-4 rtl:mr-0 flex-shrink-0 shadow-lg`}>
-									<svelte:component this={info.icon} class="w-7 h-7 text-white" />
+									{#if info.icon === 'mappin'}
+										<MapPin class="w-7 h-7 text-white" />
+									{:else if info.icon === 'phone'}
+										<Phone class="w-7 h-7 text-white" />
+									{:else if info.icon === 'mail'}
+										<Mail class="w-7 h-7 text-white" />
+									{:else if info.icon === 'clock'}
+										<Clock class="w-7 h-7 text-white" />
+									{/if}
 								</div>
 								<div class="flex-1">
 									<h3 class="text-lg font-black text-slate-900 dark:text-white mb-3">
@@ -775,7 +746,7 @@
 </section>
 
 <style>
-	/* Enhanced Animation Keyframes - Same as services pages */
+	/* Enhanced Animation Keyframes */
 	@keyframes slide-up-bounce {
 		0% { opacity: 0; transform: translateY(60px) scale(0.95); }
 		60% { opacity: 0.8; transform: translateY(-10px) scale(1.02); }
@@ -863,17 +834,11 @@
 
 	/* Utility Classes */
 	.bg-300\% { background-size: 300% 300%; }
-	.shadow-3xl { box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.25); }
 
 	/* GPU Acceleration */
 	.animate-float-slow, .animate-float-reverse, .animate-pulse-subtle, .animate-gradient-flow {
 		will-change: transform;
 		transform: translateZ(0);
-	}
-
-	/* Dark mode enhancements */
-	.dark .backdrop-blur-xl {
-		backdrop-filter: blur(24px) saturate(180%);
 	}
 
 	/* Reduced Motion */

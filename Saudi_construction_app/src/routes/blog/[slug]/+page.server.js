@@ -1,5 +1,5 @@
-// src/routes/blog/[slug]/+page.js
-import { getBlogPostBySlug, getRelatedPosts } from '$lib/config/blog.js';
+// src/routes/blog/[slug]/+page.server.js
+import { getBlogPostBySlug, getRelatedPosts, BLOG_POSTS } from '$lib/config/blog.js';
 import { error } from '@sveltejs/kit';
 
 export async function load({ params }) {
@@ -15,4 +15,9 @@ export async function load({ params }) {
     post,
     relatedPosts
   };
+}
+
+// This tells SvelteKit about all possible slug values for prerendering
+export async function entries() {
+  return BLOG_POSTS.map(post => ({ slug: post.slug }));
 }
