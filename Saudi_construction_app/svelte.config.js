@@ -13,7 +13,15 @@ const config = {
 			strict: true
 		}),
 		prerender: {
-			handleMissingId: 'warn'
+			handleMissingId: 'warn',
+			handleHttpError: ({ path, referrer, message }) => {
+				// Ignore missing og-image and other static assets
+				if (path.includes('og-image') || path.includes('.jpg') || path.includes('.png')) {
+					console.warn(`Missing file: ${path}`);
+					return;
+				}
+				throw new Error(message);
+			}
 		}
 	},
 	preprocess: vitePreprocess()
