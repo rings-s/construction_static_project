@@ -117,6 +117,71 @@ touch static/images/case-studies/neom-sustainable.jpg
 touch static/images/case-studies/riyadh-new.jpg
 touch static/images/case-studies/riyadh-highway.jpg
 
+
+
+touch static/images/projects/urban-planning.jpg
+touch static/images/projects/metro-system.jpg
+touch static/images/projects/downtown-commercial.jpg
+touch static/images/features/site-access-design.jpg
+touch static/images/features/visibility-analysis.jpg
+touch static/images/features/swept-path-analysis.jpg
+touch static/images/features/due-diligence.jpg
+touch static/images/features/capacity-analysis.jpg
+touch static/images/benefits/compliance-assurance.jpg
+touch static/images/benefits/risk-reduction.jpg
+touch static/images/benefits/international-expertise.jpg
+touch static/images/case-studies/residential-dwelling-access.jpg
+touch static/images/case-studies/commercial-complex-access.jpg
+touch static/images/case-studies/hospital-access.jpg
+touch static/images/features/economic-analysis.jpg
+touch static/images/features/traffic-modeling.jpg
+touch static/images/features/impact-assessment.jpg
+touch static/images/features/environmental-assessment.jpg
+touch static/images/features/alternatives-analysis.jpg
+touch static/images/features/funding-analysis.jpg
+touch static/images/benefits/informed-decisions.jpg
+touch static/images/benefits/comprehensive-analysis.jpg
+touch static/images/benefits/complex-projects.jpg
+touch static/images/case-studies/jeddah-rapid-transit.jpg
+touch static/images/case-studies/eastern-highway.jpg
+touch static/images/case-studies/riyadh-transport-hub.jpg
+touch static/images/features/technical-review.jpg
+touch static/images/features/evidence-response.jpg
+touch static/images/features/compliance-verification.jpg
+touch static/images/features/peer-review.jpg
+touch static/images/features/global-expertise.jpg
+touch static/images/benefits/professional-credibility.jpg
+touch static/images/benefits/risk-reduction.jpg
+touch static/images/benefits/specialized-support.jpg
+touch static/images/case-studies/local-plan-objection.jpg
+touch static/images/case-studies/junction-design-review.jpg
+touch static/images/case-studies/traffic-impact-response.jpg
+touch static/images/features/statement-preparation.jpg
+touch static/images/features/traffic-generation.jpg
+touch static/images/features/access-assessment.jpg
+touch static/images/features/accessibility-analysis.jpg
+touch static/images/features/parking-analysis.jpg
+touch static/images/benefits/approval-acceleration.jpg
+touch static/images/benefits/compliance-assurance.jpg
+touch static/images/benefits/technical-support.jpg
+touch static/images/case-studies/commercial-complex-statement.jpg
+touch static/images/case-studies/residential-community-assessment.jpg
+touch static/images/case-studies/medical-facility-statement.jpg
+touch static/images/features/travel-surveys.jpg
+touch static/images/features/sustainable-transport.jpg
+touch static/images/features/goal-setting.jpg
+touch static/images/features/public-transport.jpg
+touch static/images/features/active-transport.jpg
+touch static/images/benefits/environmental-impact.jpg
+touch static/images/benefits/cost-savings.jpg
+touch static/images/benefits/health-wellbeing.jpg
+touch static/images/case-studies/medical-complex-travel-plan.jpg
+touch static/images/case-studies/university-mobility-plan.jpg
+touch static/images/case-studies/industrial-zone-travel-plan.jpg
+
+
+
+
 # Also create og-image
 touch static/og-image.jpg
 

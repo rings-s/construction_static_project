@@ -12,6 +12,9 @@ const config = {
 			precompress: false,
 			strict: true
 		}),
+		alias: {
+			$lib: './src/lib'
+		  },
 		prerender: {
 			handleMissingId: 'warn',
 			handleHttpError: ({ path, referrer, message }) => {
