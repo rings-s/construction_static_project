@@ -6,7 +6,6 @@
 	import { browser } from '$app/environment';
 	
 	import { 
-	  Menu, 
 	  X, 
 	  ChevronDown, 
 	  ChevronRight,
@@ -17,13 +16,25 @@
 	  Phone, 
 	  Mail,
 	  ArrowRight,
-	  Search,
-	  Bell
+	  Home,
+	  Building2,
+	  Wrench,
+	  Users,
+	  FileText,
+	  MessageCircle,
+	  Shield,
+	  Zap,
+	  Target,
+	  Award,
+	  TrendingUp,
+	  Clock,
+	  CheckCircle,
+	  Star
 	} from 'lucide-svelte';
 	
 	import { APP_CONFIG, NAVIGATION } from '$lib/config/app.js';
 	
-	let mobileMenuOpen = $state(false);
+	let sideNavOpen = $state(false);
 	let scrolled = $state(false);
 	let scrollDirection = $state('up');
 	let currentTheme = $state('light');
@@ -32,7 +43,7 @@
 	let headerElement = $state(null);
 	let dropdownTimeout = $state(null);
 	let lastScrollY = $state(0);
-	let searchOpen = $state(false);
+	let sideNavMounted = $state(false);
   
 	onMount(() => {
 	  const handleScroll = () => {
@@ -77,87 +88,89 @@
 		html.dir = newLocale === 'ar' ? 'rtl' : 'ltr';
 		
 		// Add smooth transition for RTL change
-		document.body.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+		document.body.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
 		setTimeout(() => {
 		  document.body.style.transition = '';
-		}, 300);
+		}, 400);
 	  }
 	}
   
-	function toggleMobileMenu() {
-	  mobileMenuOpen = !mobileMenuOpen;
+	function toggleSideNav() {
+	  sideNavOpen = !sideNavOpen;
 	  if (browser) {
-		if (mobileMenuOpen) {
+		if (sideNavOpen) {
 		  document.body.style.overflow = 'hidden';
-		  document.body.style.position = 'fixed';
-		  document.body.style.width = '100%';
-		  document.body.style.top = `-${window.scrollY}px`;
+		  // Trigger mount animation
+		  setTimeout(() => {
+			sideNavMounted = true;
+		  }, 50);
 		} else {
-		  const scrollY = document.body.style.top;
 		  document.body.style.overflow = '';
-		  document.body.style.position = '';
-		  document.body.style.width = '';
-		  document.body.style.top = '';
-		  if (scrollY) {
-			window.scrollTo(0, parseInt(scrollY || '0') * -1);
-		  }
+		  sideNavMounted = false;
 		  // Reset active menus when closing
-		  activeMobileMenus = new Set();
+		  setTimeout(() => {
+			activeMobileMenus = new Set();
+			activeDropdown = null;
+		  }, 600);
 		}
 	  }
 	}
   
-	function closeMobileMenu() {
-	  mobileMenuOpen = false;
+	function closeSideNav() {
+	  sideNavOpen = false;
+	  sideNavMounted = false;
 	  activeMobileMenus = new Set();
+	  activeDropdown = null;
 	  if (browser) {
-		const scrollY = document.body.style.top;
 		document.body.style.overflow = '';
-		document.body.style.position = '';
-		document.body.style.width = '';
-		document.body.style.top = '';
-		if (scrollY) {
-		  window.scrollTo(0, parseInt(scrollY || '0') * -1);
-		}
 	  }
 	}
   
-	function handleDropdownEnter(index) {
-	  if (dropdownTimeout) {
-		clearTimeout(dropdownTimeout);
-	  }
-	  activeDropdown = index;
-	}
-  
-	function handleDropdownLeave() {
-	  dropdownTimeout = setTimeout(() => {
-		activeDropdown = null;
-	  }, 150);
-	}
-
-	function toggleMobileSubmenu(index) {
-	  const newActiveMobileMenus = new Set(activeMobileMenus);
-	  if (newActiveMobileMenus.has(index)) {
+	function handleDropdownToggle(index) {
+	  if (activeMobileMenus.has(index)) {
+		const newActiveMobileMenus = new Set(activeMobileMenus);
 		newActiveMobileMenus.delete(index);
+		activeMobileMenus = newActiveMobileMenus;
 	  } else {
+		const newActiveMobileMenus = new Set(activeMobileMenus);
 		newActiveMobileMenus.add(index);
+		activeMobileMenus = newActiveMobileMenus;
 	  }
-	  activeMobileMenus = newActiveMobileMenus;
 	}
   
 	function isActiveRoute(href) {
 	  return $page.url.pathname === href || $page.url.pathname.startsWith(href + '/');
 	}
-
-	function toggleSearch() {
-	  searchOpen = !searchOpen;
+  
+	// Modern icon mapping for better UX
+	const iconMap = {
+	  '🏠': Home,
+	  '🏢': Building2,
+	  '🛠️': Wrench,
+	  '👥': Users,
+	  '📄': FileText,
+	  '💬': MessageCircle,
+	  '🛡️': Shield,
+	  '⚡': Zap,
+	  '🎯': Target,
+	  '🏆': Award,
+	  '📈': TrendingUp,
+	  '🕐': Clock,
+	  '✅': CheckCircle,
+	  '⭐': Star
+	};
+  
+	function getIconComponent(iconString) {
+	  return iconMap[iconString] || Home;
 	}
   
-	// Close dropdowns when clicking outside
+	// Close side nav when clicking outside
 	function handleClickOutside(event) {
-	  if (headerElement && !headerElement.contains(event.target)) {
-		activeDropdown = null;
-		searchOpen = false;
+	  if (headerElement && !headerElement.contains(event.target) && sideNavOpen) {
+		const sideNavElement = document.querySelector('.side-nav-panel');
+		if (sideNavElement && !sideNavElement.contains(event.target)) {
+		  closeSideNav();
+		}
 	  }
 	}
   
@@ -169,112 +182,75 @@
 	});
   </script>
   
-  <!-- Top Information Bar with Enhanced Design -->
-  <div class="bg-slate-900 text-white py-3 hidden lg:block border-b border-slate-800 transition-all duration-300">
+  <!-- High Contrast Top Information Bar -->
+  <div class="bg-slate-900 dark:bg-slate-950 text-white py-3 hidden lg:block border-b border-slate-800 dark:border-slate-700 transition-all duration-300">
 	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 	  <div class="flex justify-between items-center text-sm">
 		<div class="flex items-center space-x-8 rtl:space-x-reverse">
-		  <div class="flex items-center group hover:text-emerald-400 transition-colors duration-200 cursor-pointer">
-			<MapPin class="w-4 h-4 mr-2 rtl:ml-2 rtl:mr-0 text-emerald-400 group-hover:scale-110 transition-transform duration-200" />
-			<span class="text-slate-300 group-hover:text-white transition-colors">
+		  <div class="flex items-center group hover:text-emerald-400 dark:hover:text-emerald-300 transition-colors duration-200 cursor-pointer">
+			<MapPin class="w-4 h-4 mr-2 rtl:ml-2 rtl:mr-0 text-emerald-400 dark:text-emerald-300 group-hover:scale-110 transition-transform duration-200" />
+			<span class="text-slate-300 dark:text-slate-200 group-hover:text-white dark:group-hover:text-white transition-colors">
 			  {($locale || 'en') === 'ar' ? APP_CONFIG.contact.address : APP_CONFIG.contact.addressEn}
 			</span>
 		  </div>
-		  <a href="tel:{APP_CONFIG.contact.phone}" class="flex items-center group hover:text-emerald-400 transition-colors duration-200">
-			<Phone class="w-4 h-4 mr-2 rtl:ml-2 rtl:mr-0 text-emerald-400 group-hover:scale-110 transition-transform duration-200" />
-			<span class="text-slate-300 group-hover:text-white transition-colors">{APP_CONFIG.contact.phone}</span>
+		  <a href="tel:{APP_CONFIG.contact.phone}" class="flex items-center group hover:text-emerald-400 dark:hover:text-emerald-300 transition-colors duration-200">
+			<Phone class="w-4 h-4 mr-2 rtl:ml-2 rtl:mr-0 text-emerald-400 dark:text-emerald-300 group-hover:scale-110 transition-transform duration-200" />
+			<span class="text-slate-300 dark:text-slate-200 group-hover:text-white dark:group-hover:text-white transition-colors">{APP_CONFIG.contact.phone}</span>
 		  </a>
-		  <a href="mailto:{APP_CONFIG.contact.email}" class="flex items-center group hover:text-emerald-400 transition-colors duration-200">
-			<Mail class="w-4 h-4 mr-2 rtl:ml-2 rtl:mr-0 text-emerald-400 group-hover:scale-110 transition-transform duration-200" />
-			<span class="text-slate-300 group-hover:text-white transition-colors">{APP_CONFIG.contact.email}</span>
+		  <a href="mailto:{APP_CONFIG.contact.email}" class="flex items-center group hover:text-emerald-400 dark:hover:text-emerald-300 transition-colors duration-200">
+			<Mail class="w-4 h-4 mr-2 rtl:ml-2 rtl:mr-0 text-emerald-400 dark:text-emerald-300 group-hover:scale-110 transition-transform duration-200" />
+			<span class="text-slate-300 dark:text-slate-200 group-hover:text-white dark:group-hover:text-white transition-colors">{APP_CONFIG.contact.email}</span>
 		  </a>
 		</div>
 		
 		<div class="flex items-center space-x-2 rtl:space-x-reverse">
-		  <!-- Enhanced Theme Toggle -->
+		  <!-- High Contrast Theme Toggle -->
 		  <button 
 			onclick={toggleTheme} 
-			class="group relative p-2.5 rounded-lg hover:bg-slate-800 transition-all duration-300 hover:scale-105"
+			class="group relative p-2.5 rounded-lg hover:bg-slate-800 dark:hover:bg-slate-800 transition-all duration-300 hover:scale-105"
 			aria-label="Toggle theme"
 		  >
 			<div class="relative w-4 h-4 overflow-hidden">
-			  <Sun class={`absolute inset-0 text-yellow-400 transition-all duration-500 transform ${
+			  <Sun class={`absolute inset-0 text-yellow-400 dark:text-yellow-300 transition-all duration-500 transform ${
 				currentTheme === 'dark' ? 'rotate-180 scale-0 opacity-0' : 'rotate-0 scale-100 opacity-100'
 			  }`} />
-			  <Moon class={`absolute inset-0 text-slate-300 transition-all duration-500 transform ${
+			  <Moon class={`absolute inset-0 text-slate-300 dark:text-slate-200 transition-all duration-500 transform ${
 				currentTheme === 'dark' ? 'rotate-0 scale-100 opacity-100' : '-rotate-180 scale-0 opacity-0'
 			  }`} />
 			</div>
 		  </button>
 		  
-		  <!-- Enhanced Language Toggle -->
+		  <!-- High Contrast Language Toggle -->
 		  <button 
 			onclick={toggleLocale} 
-			class="group flex items-center p-2.5 rounded-lg hover:bg-slate-800 transition-all duration-300 hover:scale-105"
+			class="group flex items-center p-2.5 rounded-lg hover:bg-slate-800 dark:hover:bg-slate-800 transition-all duration-300 hover:scale-105"
 			aria-label="Toggle language"
 		  >
-			<Globe class="w-4 h-4 mr-2 rtl:ml-2 rtl:mr-0 text-emerald-400 group-hover:scale-110 transition-transform duration-200" />
-			<span class="text-xs font-semibold min-w-[24px] text-center transition-all duration-300 group-hover:text-emerald-400">
+			<Globe class="w-4 h-4 mr-2 rtl:ml-2 rtl:mr-0 text-emerald-400 dark:text-emerald-300 group-hover:scale-110 transition-transform duration-200" />
+			<span class="text-xs font-semibold min-w-[24px] text-center transition-all duration-300 group-hover:text-emerald-400 dark:group-hover:text-emerald-300 text-slate-200 dark:text-slate-100">
 			  {($locale || 'en') === 'en' ? 'عر' : 'EN'}
 			</span>
-		  </button>
-
-		  <!-- Search Toggle -->
-		  <button 
-			onclick={toggleSearch}
-			class="group p-2.5 rounded-lg hover:bg-slate-800 transition-all duration-300 hover:scale-105"
-			aria-label="Toggle search"
-		  >
-			<Search class="w-4 h-4 text-slate-300 group-hover:text-emerald-400 transition-colors duration-200" />
-		  </button>
-
-		  <!-- Notifications -->
-		  <button class="group relative p-2.5 rounded-lg hover:bg-slate-800 transition-all duration-300 hover:scale-105">
-			<Bell class="w-4 h-4 text-slate-300 group-hover:text-emerald-400 transition-colors duration-200" />
-			<div class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-slate-900 animate-pulse"></div>
 		  </button>
 		</div>
 	  </div>
 	</div>
   </div>
-
-  <!-- Search Overlay -->
-  {#if searchOpen}
-	<div class="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm transition-all duration-300" onclick={() => searchOpen = false}>
-	  <div class="absolute top-20 left-1/2 -translate-x-1/2 w-full max-w-2xl mx-auto px-4">
-		<div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 p-6 transform animate-search-appear">
-		  <div class="flex items-center space-x-4 rtl:space-x-reverse">
-			<Search class="w-6 h-6 text-slate-400 flex-shrink-0" />
-			<input 
-			  type="text" 
-			  placeholder={($locale || 'en') === 'ar' ? 'ابحث...' : 'Search...'}
-			  class="flex-1 bg-transparent text-slate-900 dark:text-white placeholder-slate-400 text-lg focus:outline-none"
-			  autofocus
-			/>
-			<button onclick={() => searchOpen = false} class="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors">
-			  <X class="w-5 h-5 text-slate-400" />
-			</button>
-		  </div>
-		</div>
-	  </div>
-	</div>
-  {/if}
   
-  <!-- Main Header with Smart Hiding and Background Color -->
+  <!-- High Contrast Main Header -->
   <header 
 	bind:this={headerElement}
-	class={`sticky top-0 z-50 transition-all duration-500 ease-out border-b backdrop-blur-xl bg-white dark:bg-slate-900 ${
+	class={`sticky top-0 z-50 transition-all duration-500 ease-out border-b backdrop-blur-xl ${
 	  scrolled 
-		? scrollDirection === 'down' && !mobileMenuOpen
-		  ? 'transform -translate-y-full shadow-xl border-slate-200 dark:border-slate-700' 
-		  : 'shadow-xl border-slate-200 dark:border-slate-700'
-		: 'border-slate-100 dark:border-slate-800'
+		? scrollDirection === 'down' && !sideNavOpen
+		  ? 'transform -translate-y-full shadow-xl border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900' 
+		  : 'shadow-xl border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900'
+		: 'border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-900'
 	}`}
   >
 	<nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 	  <div class="flex justify-between items-center h-20">
 		
-		<!-- Enhanced Logo with Animation -->
+		<!-- High Contrast Logo -->
 		<div class="flex-shrink-0 group">
 		  <a href="/" class="flex items-center transition-all duration-300 group-hover:scale-105">
 			<div class="relative">
@@ -287,198 +263,208 @@
 			  <div class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">
 				{APP_CONFIG.name}
 			  </div>
-			  <div class="text-xs text-slate-600 dark:text-slate-400 -mt-1 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors duration-300">
+			  <div class="text-xs text-slate-600 dark:text-slate-300 -mt-1 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors duration-300">
 				{($locale || 'en') === 'ar' ? APP_CONFIG.tagline : APP_CONFIG.taglineEn}
 			  </div>
 			</div>
 		  </a>
 		</div>
   
-		<!-- Enhanced Desktop Navigation -->
-		<div class="hidden lg:flex lg:items-center lg:space-x-1 rtl:space-x-reverse">
-		  {#each NAVIGATION as item, index}
-			<div 
-			  class="relative group"
-			  onmouseenter={() => item.submenu && handleDropdownEnter(index)}
-			  onmouseleave={() => item.submenu && handleDropdownLeave()}
-			>
-			  <a
-				href={item.href}
-				class={`flex items-center px-4 py-3 text-sm font-semibold rounded-xl transition-all duration-300 relative overflow-hidden ${
-				  isActiveRoute(item.href)
-					? 'text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 shadow-sm'
-					: 'text-slate-700 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-slate-50 dark:hover:bg-slate-800/50'
-				}`}
-			  >
-				<!-- Active indicator -->
-				{#if isActiveRoute(item.href)}
-				  <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-emerald-600/10 rounded-xl"></div>
-				{/if}
-				
-				<span class="text-lg mr-3 rtl:ml-3 rtl:mr-0 group-hover:scale-110 transition-transform duration-300">{item.icon}</span>
-				<span class="relative z-10">{($locale || 'en') === 'ar' ? item.title : item.titleEn}</span>
-				{#if item.submenu}
-				  <ChevronDown 
-					class={`ml-2 rtl:mr-2 rtl:ml-0 w-4 h-4 transition-all duration-300 ${
-					  activeDropdown === index ? 'rotate-180 text-emerald-600 dark:text-emerald-400' : 'group-hover:rotate-180'
-					}`} 
-				  />
-				{/if}
-			  </a>
-			  
-			  <!-- Enhanced Mega Menu -->
-			  {#if item.submenu}
-				<div class={`absolute top-full ${($locale || 'en') === 'ar' ? 'right-0' : 'left-0'} w-96 bg-white dark:bg-slate-800 shadow-2xl border border-slate-200 dark:border-slate-700 rounded-2xl transition-all duration-300 transform origin-top ${
-				  activeDropdown === index 
-					? 'opacity-100 visible scale-100 translate-y-2' 
-					: 'opacity-0 invisible scale-95 translate-y-0'
-				} overflow-hidden`}>
-				  <div class="p-6">
-					<div class="grid gap-1">
-					  {#each item.submenu as subitem}
-						<a
-						  href={subitem.href}
-						  class="flex items-start p-4 text-sm text-slate-700 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-slate-50 dark:hover:bg-slate-700/50 rounded-xl transition-all duration-200 group relative overflow-hidden"
-						  onclick={() => activeDropdown = null}
-						>
-						  <div class="flex-1">
-							<div class="font-semibold group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors mb-1">
-							  {($locale || 'en') === 'ar' ? subitem.title : subitem.titleEn}
-							</div>
-							{#if subitem.description}
-							  <div class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-								{subitem.description}
-							  </div>
-							{/if}
-						  </div>
-						  <ArrowRight class="w-4 h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-all duration-200 text-slate-400 mt-1" />
-						  
-						  <!-- Hover effect -->
-						  <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-emerald-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
-						</a>
-					  {/each}
-					</div>
-				  </div>
-				</div>
-			  {/if}
-			</div>
-		  {/each}
-		</div>
-  
-		<!-- Enhanced Mobile Menu Button -->
-		<div class="lg:hidden">
-		  <button
-			onclick={toggleMobileMenu}
-			class="relative inline-flex items-center justify-center p-3 rounded-xl text-slate-700 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 group"
-			aria-label="Toggle mobile menu"
+		<!-- High Contrast Premium Hamburger Button -->
+		<button
+		  onclick={toggleSideNav}
+		  class="premium-hamburger relative p-4 rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-700 hover:from-emerald-50 hover:to-emerald-100 dark:hover:from-emerald-900/30 dark:hover:to-emerald-800/30 border border-slate-200 dark:border-slate-600 hover:border-emerald-300 dark:hover:border-emerald-500 shadow-lg hover:shadow-xl dark:shadow-slate-900/20 transition-all duration-400 ease-out group"
+		  class:active={sideNavOpen}
+		  aria-label="Toggle navigation menu"
+		  aria-expanded={sideNavOpen}
+		>
+		  <!-- High Contrast SVG Hamburger -->
+		  <svg 
+			class="w-6 h-6 transition-all duration-600 ease-out group-hover:scale-110"
+			viewBox="0 0 24 24" 
+			fill="none" 
+			xmlns="http://www.w3.org/2000/svg"
 		  >
-			<div class="relative w-6 h-6">
-			  <span class={`absolute block h-0.5 w-6 bg-current transform transition-all duration-300 ease-out ${
-				mobileMenuOpen ? 'rotate-45 translate-y-2.5' : 'translate-y-1'
-			  }`}></span>
-			  <span class={`absolute block h-0.5 w-6 bg-current transform transition-all duration-300 ease-out translate-y-2.5 ${
-				mobileMenuOpen ? 'opacity-0 scale-0' : 'opacity-100 scale-100'
-			  }`}></span>
-			  <span class={`absolute block h-0.5 w-6 bg-current transform transition-all duration-300 ease-out ${
-				mobileMenuOpen ? '-rotate-45 translate-y-2.5' : 'translate-y-4'
-			  }`}></span>
-			</div>
-		  </button>
-		</div>
+			<!-- Top Line -->
+			<path 
+			  class={`hamburger-line top-line transition-all duration-600 ease-out ${
+				sideNavOpen ? 'rotate-45 translate-y-[7px]' : ''
+			  }`}
+			  d="M3 6h18" 
+			  stroke="currentColor" 
+			  stroke-width="2.5" 
+			  stroke-linecap="round"
+			/>
+			<!-- Middle Line -->
+			<path 
+			  class={`hamburger-line middle-line transition-all duration-400 ease-out ${
+				sideNavOpen ? 'opacity-0 scale-x-0' : 'opacity-100 scale-x-100'
+			  }`}
+			  d="M3 12h18" 
+			  stroke="currentColor" 
+			  stroke-width="2.5" 
+			  stroke-linecap="round"
+			/>
+			<!-- Bottom Line -->
+			<path 
+			  class={`hamburger-line bottom-line transition-all duration-600 ease-out ${
+				sideNavOpen ? '-rotate-45 -translate-y-[7px]' : ''
+			  }`}
+			  d="M3 18h18" 
+			  stroke="currentColor" 
+			  stroke-width="2.5" 
+			  stroke-linecap="round"
+			/>
+		  </svg>
+		  
+		  <!-- High Contrast Ripple Effect -->
+		  <div class={`absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-500/20 to-emerald-600/20 dark:from-emerald-400/30 dark:to-emerald-500/30 transition-all duration-500 ease-out ${
+			sideNavOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
+		  }`}></div>
+		  
+		  <!-- High Contrast Status Indicator -->
+		  <div class={`absolute -top-1 -right-1 w-3 h-3 rounded-full transition-all duration-400 ease-out ${
+			sideNavOpen ? 'bg-emerald-500 dark:bg-emerald-400 scale-100' : 'bg-slate-400 dark:bg-slate-500 scale-0'
+		  }`}></div>
+		</button>
 	  </div>
 	</nav>
   </header>
 
-  <!-- Enhanced Mobile Navigation -->
-  {#if mobileMenuOpen}
-	<div class="fixed inset-0 z-[60] lg:hidden">
-	  <!-- Enhanced Backdrop with blur -->
-	  <div class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-all duration-300" onclick={closeMobileMenu}></div>
+  <!-- High Contrast Premium Side Navigation Panel -->
+  {#if sideNavOpen}
+	<div class="fixed inset-0 z-[60] premium-nav-overlay">
+	  <!-- High Contrast Backdrop -->
+	  <div 
+		class={`fixed inset-0 bg-black/70 dark:bg-black/80 backdrop-blur-lg transition-all duration-600 ease-out ${
+		  sideNavMounted ? 'opacity-100' : 'opacity-0'
+		}`}
+		onclick={closeSideNav}
+	  ></div>
 	  
-	  <!-- Enhanced Mobile menu panel with proper background and scrolling -->
-	  <div class={`fixed top-0 ${($locale || 'en') === 'ar' ? 'left-0' : 'right-0'} w-full max-w-sm h-full bg-white dark:bg-slate-900 shadow-2xl transform transition-all duration-300 ease-out ${
-		mobileMenuOpen ? 'translate-x-0' : (($locale || 'en') === 'ar' ? '-translate-x-full' : 'translate-x-full')
+	  <!-- High Contrast Side Navigation Panel -->
+	  <div class={`premium-side-nav fixed top-0 ${($locale || 'en') === 'ar' ? 'left-0' : 'right-0'} w-full max-w-md h-full bg-white dark:bg-slate-900 backdrop-blur-xl shadow-2xl dark:shadow-black/40 transform transition-all duration-600 ease-out ${
+		sideNavMounted ? 'translate-x-0 scale-100' : (($locale || 'en') === 'ar' ? '-translate-x-full scale-95' : 'translate-x-full scale-95')
 	  } border-l border-slate-200 dark:border-slate-700`}>
 		
-		<!-- Enhanced Mobile header with solid background -->
-		<div class="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-700 bg-gradient-to-r from-emerald-50 to-slate-50 dark:from-emerald-900/20 dark:to-slate-800/20">
-		  <div class="flex items-center">
+		<!-- High Contrast Nav Header -->
+		<div class="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-700 bg-gradient-to-r from-emerald-50 via-slate-50 to-emerald-50 dark:from-slate-800 dark:via-slate-900 dark:to-slate-800">
+		  <div class="flex items-center space-x-3 rtl:space-x-reverse">
 			<div class="w-10 h-10 bg-gradient-to-br from-emerald-600 to-slate-600 rounded-xl flex items-center justify-center shadow-lg">
 			  <span class="text-white font-bold text-lg">🛣️</span>
 			</div>
-			<div class="ml-3 rtl:mr-3 rtl:ml-0">
+			<div>
 			  <div class="text-lg font-bold text-slate-900 dark:text-white">{APP_CONFIG.name}</div>
-			  <div class="text-xs text-slate-600 dark:text-slate-400 -mt-1">
+			  <div class="text-xs text-slate-600 dark:text-slate-300 -mt-1">
 				{($locale || 'en') === 'ar' ? APP_CONFIG.tagline : APP_CONFIG.taglineEn}
 			  </div>
 			</div>
 		  </div>
 		  <button 
-			onclick={closeMobileMenu} 
-			class="p-2 rounded-xl text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
+			onclick={closeSideNav} 
+			class="premium-close-btn p-3 rounded-xl text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 ease-out group"
+			aria-label="Close navigation"
 		  >
-			<X class="w-6 h-6" />
+			<X class="w-6 h-6 group-hover:rotate-90 group-hover:scale-110 transition-all duration-300 ease-out" />
 		  </button>
 		</div>
 		
-		<!-- Enhanced Mobile navigation content with proper scrolling and background -->
-		<div class="flex-1 overflow-y-auto bg-white dark:bg-slate-900" style="max-height: calc(100vh - 88px - 140px);">
-		  <div class="p-6 space-y-2">
+		<!-- High Contrast Navigation Content -->
+		<div class="flex-1 overflow-y-auto premium-scrollbar bg-white dark:bg-slate-900" style="height: calc(100vh - 280px);">
+		  <div class="p-6 space-y-3">
 			{#each NAVIGATION as item, index}
-			  <div class="space-y-1">
-				<!-- Main menu item as toggleable button -->
-				<div class="flex items-center rounded-xl overflow-hidden">
-				  <!-- Main route link -->
+			  <div class="nav-item space-y-2" style={`animation-delay: ${index * 100}ms`}>
+				<!-- High Contrast Navigation Item -->
+				<div class="flex items-center rounded-2xl overflow-hidden group/item shadow-sm hover:shadow-md dark:shadow-slate-800/20 transition-all duration-300 ease-out">
+				  <!-- Main Route Link -->
 				  <a
 					href={item.href}
-					onclick={closeMobileMenu}
-					class={`flex-1 flex items-center px-4 py-4 text-base font-semibold transition-all duration-200 group ${
+					onclick={closeSideNav}
+					class={`flex-1 flex items-center px-5 py-4 text-base font-semibold transition-all duration-400 ease-out group/link relative overflow-hidden ${
 					  isActiveRoute(item.href)
-						? 'text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20'
-						: 'text-slate-700 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-slate-50 dark:hover:bg-slate-800/50'
+						? 'text-emerald-700 dark:text-emerald-300 bg-gradient-to-r from-emerald-50 to-emerald-100 dark:from-emerald-950/60 dark:to-emerald-900/40 shadow-inner'
+						: 'text-slate-700 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-gradient-to-r hover:from-slate-50 hover:to-slate-100 dark:hover:from-slate-800/60 dark:hover:to-slate-700/40'
 					}`}
 				  >
-					<span class="text-xl mr-4 rtl:ml-4 rtl:mr-0 group-hover:scale-110 transition-transform duration-200">{item.icon}</span>
-					<span class="flex-1">{($locale || 'en') === 'ar' ? item.title : item.titleEn}</span>
+					<!-- High Contrast Icon -->
+					<div class="icon-container mr-4 rtl:ml-4 rtl:mr-0 relative">
+					  <div class={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-400 ease-out ${
+						isActiveRoute(item.href)
+						  ? 'bg-emerald-500/20 dark:bg-emerald-500/30 text-emerald-600 dark:text-emerald-400 shadow-lg'
+						  : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 group-hover/link:bg-emerald-100 dark:group-hover/link:bg-emerald-900/40 group-hover/link:text-emerald-600 dark:group-hover/link:text-emerald-400'
+					  }`}>
+						<svelte:component this={getIconComponent(item.icon)} class="w-5 h-5 transition-all duration-300 ease-out group-hover/link:scale-110" />
+					  </div>
+					  <!-- High Contrast Glow Effect -->
+					  <div class={`absolute inset-0 rounded-xl bg-emerald-500/20 dark:bg-emerald-400/20 opacity-0 group-hover/link:opacity-100 transition-opacity duration-300 ease-out blur-sm ${
+						isActiveRoute(item.href) ? 'opacity-60' : ''
+					  }`}></div>
+					</div>
+					
+					<div class="flex-1 relative z-10">
+					  <span class="block font-semibold">{($locale || 'en') === 'ar' ? item.title : item.titleEn}</span>
+					  {#if item.description}
+						<span class="block text-xs text-slate-500 dark:text-slate-400 mt-1 opacity-0 group-hover/link:opacity-100 transition-opacity duration-300">
+						  {item.description}
+						</span>
+					  {/if}
+					</div>
+					
 					{#if isActiveRoute(item.href)}
-					  <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse ml-2 rtl:mr-2 rtl:ml-0"></div>
+					  <div class="flex items-center space-x-2 rtl:space-x-reverse">
+						<div class="w-2 h-2 bg-emerald-500 dark:bg-emerald-400 rounded-full animate-pulse"></div>
+						<CheckCircle class="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
+					  </div>
 					{/if}
+					
+					<!-- High Contrast Hover Gradient -->
+					<div class="absolute inset-0 bg-gradient-to-r from-emerald-500/5 via-emerald-600/5 to-transparent dark:from-emerald-400/10 dark:via-emerald-500/10 opacity-0 group-hover/link:opacity-100 transition-all duration-400 ease-out rounded-2xl"></div>
 				  </a>
 				  
-				  <!-- Submenu toggle button (only if submenu exists) -->
+				  <!-- High Contrast Submenu Toggle -->
 				  {#if item.submenu}
 					<button
-					  onclick={() => toggleMobileSubmenu(index)}
-					  class={`px-4 py-4 transition-all duration-200 ${
+					  onclick={() => handleDropdownToggle(index)}
+					  class={`px-4 py-4 transition-all duration-400 ease-out hover:bg-slate-100 dark:hover:bg-slate-800 rounded-r-2xl ${
 						activeMobileMenus.has(index)
-						  ? 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20'
-						  : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50'
+						  ? 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/40'
+						  : 'text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300'
 					  }`}
 					  aria-label="Toggle submenu"
 					>
-					  <ChevronRight class={`w-5 h-5 transition-transform duration-300 ${
-						activeMobileMenus.has(index) ? 'rotate-90' : ''
+					  <ChevronRight class={`w-5 h-5 transition-all duration-500 ease-out ${
+						activeMobileMenus.has(index) ? 'rotate-90 text-emerald-600 dark:text-emerald-400 scale-110' : 'group-hover/item:rotate-90'
 					  }`} />
 					</button>
 				  {/if}
 				</div>
 				
-				<!-- Enhanced Submenu with proper animation and background -->
+				<!-- High Contrast Submenu -->
 				{#if item.submenu}
-				  <div class={`overflow-hidden transition-all duration-300 ease-out ${
+				  <div class={`overflow-hidden transition-all duration-700 ease-out ${
 					activeMobileMenus.has(index) 
-					  ? 'max-h-[500px] opacity-100' 
-					  : 'max-h-0 opacity-0'
+					  ? 'max-h-[600px] opacity-100 translate-y-0' 
+					  : 'max-h-0 opacity-0 -translate-y-4'
 				  }`}>
-					<div class="ml-8 rtl:mr-8 rtl:ml-0 mt-2 space-y-1 bg-slate-50 dark:bg-slate-800/30 rounded-xl p-2">
-					  {#each item.submenu as subitem}
+					<div class="ml-6 rtl:mr-6 rtl:ml-0 mt-3 space-y-2 bg-gradient-to-br from-slate-50 via-slate-50 to-slate-100 dark:from-slate-800 dark:via-slate-850 dark:to-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-inner backdrop-blur-sm">
+					  {#each item.submenu as subitem, subIndex}
 						<a
 						  href={subitem.href}
-						  onclick={closeMobileMenu}
-						  class="flex items-center px-4 py-3 text-sm text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-700/50 rounded-lg transition-all duration-200 group"
+						  onclick={closeSideNav}
+						  class="submenu-item flex items-center px-4 py-3 text-sm text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-700/60 rounded-xl transition-all duration-300 ease-out group/sub relative overflow-hidden"
+						  style={`animation-delay: ${(index * 100) + (subIndex * 50)}ms`}
 						>
-						  <span class="flex-1">{($locale || 'en') === 'ar' ? subitem.title : subitem.titleEn}</span>
-						  <ArrowRight class="w-4 h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-all duration-200" />
+						  <!-- High Contrast Submenu Icon -->
+						  <div class="w-6 h-6 rounded-lg bg-slate-200 dark:bg-slate-700 flex items-center justify-center mr-3 rtl:ml-3 rtl:mr-0 group-hover/sub:bg-emerald-100 dark:group-hover/sub:bg-emerald-900/50 transition-all duration-300">
+							<div class="w-2 h-2 rounded-full bg-slate-400 dark:bg-slate-500 group-hover/sub:bg-emerald-500 dark:group-hover/sub:bg-emerald-400 transition-colors duration-300"></div>
+						  </div>
+						  
+						  <span class="flex-1 relative z-10 font-medium">{($locale || 'en') === 'ar' ? subitem.title : subitem.titleEn}</span>
+						  
+						  <ArrowRight class="w-4 h-4 opacity-0 group-hover/sub:opacity-100 group-hover/sub:translate-x-1 rtl:group-hover/sub:-translate-x-1 transition-all duration-300 ease-out text-emerald-500 dark:text-emerald-400" />
+						  
+						  <!-- High Contrast Submenu Hover Effect -->
+						  <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-transparent dark:from-emerald-400/10 opacity-0 group-hover/sub:opacity-100 transition-opacity duration-300 ease-out rounded-xl"></div>
 						</a>
 					  {/each}
 					</div>
@@ -489,41 +475,45 @@
 		  </div>
 		</div>
 
-		<!-- Enhanced Mobile footer actions with solid background -->
-		<div class="border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 p-6">
-		  <div class="grid grid-cols-2 gap-4 mb-4">
+		<!-- High Contrast Premium Footer -->
+		<div class="border-t border-slate-200 dark:border-slate-700 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-900 p-6 backdrop-blur-sm">
+		  <div class="grid grid-cols-2 gap-4 mb-6">
 			<button 
 			  onclick={toggleTheme}
-			  class="flex items-center justify-center px-4 py-3 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 rounded-xl transition-all duration-200 border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800"
+			  class="premium-control-btn flex items-center justify-center px-4 py-3 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 rounded-xl transition-all duration-300 ease-out border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 shadow-sm hover:shadow-md group backdrop-blur-sm"
 			>
 			  {#if currentTheme === 'dark'}
-				<Sun class="w-4 h-4 mr-2 rtl:ml-2 rtl:mr-0" />
+				<Sun class="w-4 h-4 mr-2 rtl:ml-2 rtl:mr-0 group-hover:rotate-180 group-hover:scale-110 transition-all duration-500 ease-out text-amber-500" />
 				<span>{($locale || 'en') === 'ar' ? 'نهاري' : 'Light'}</span>
 			  {:else}
-				<Moon class="w-4 h-4 mr-2 rtl:ml-2 rtl:mr-0" />
+				<Moon class="w-4 h-4 mr-2 rtl:ml-2 rtl:mr-0 group-hover:-rotate-12 group-hover:scale-110 transition-all duration-500 ease-out text-slate-600 dark:text-slate-300" />
 				<span>{($locale || 'en') === 'ar' ? 'ليلي' : 'Dark'}</span>
 			  {/if}
 			</button>
 			
 			<button 
 			  onclick={toggleLocale}
-			  class="flex items-center justify-center px-4 py-3 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 rounded-xl transition-all duration-200 border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800"
+			  class="premium-control-btn flex items-center justify-center px-4 py-3 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 rounded-xl transition-all duration-300 ease-out border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 shadow-sm hover:shadow-md group backdrop-blur-sm"
 			>
-			  <Globe class="w-4 h-4 mr-2 rtl:ml-2 rtl:mr-0" />
+			  <Globe class="w-4 h-4 mr-2 rtl:ml-2 rtl:mr-0 group-hover:rotate-180 group-hover:scale-110 transition-all duration-500 ease-out text-emerald-500 dark:text-emerald-400" />
 			  <span>{($locale || 'en') === 'en' ? 'عربية' : 'English'}</span>
 			</button>
 		  </div>
 		  
-		  <!-- Contact info in mobile with background -->
-		  <div class="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-600">
+		  <!-- High Contrast Contact Info -->
+		  <div class="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-600 shadow-sm backdrop-blur-sm">
 			<div class="space-y-3">
-			  <a href="tel:{APP_CONFIG.contact.phone}" class="flex items-center text-sm text-slate-500 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700/50">
-				<Phone class="w-4 h-4 mr-3 rtl:ml-3 rtl:mr-0" />
-				<span>{APP_CONFIG.contact.phone}</span>
+			  <a href="tel:{APP_CONFIG.contact.phone}" class="premium-contact-link flex items-center text-sm text-slate-500 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all duration-300 ease-out p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700/60 group">
+				<div class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-700 flex items-center justify-center mr-3 rtl:ml-3 rtl:mr-0 group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/50 transition-all duration-300">
+				  <Phone class="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
+				</div>
+				<span class="font-medium">{APP_CONFIG.contact.phone}</span>
 			  </a>
-			  <a href="mailto:{APP_CONFIG.contact.email}" class="flex items-center text-sm text-slate-500 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700/50">
-				<Mail class="w-4 h-4 mr-3 rtl:ml-3 rtl:mr-0" />
-				<span>{APP_CONFIG.contact.email}</span>
+			  <a href="mailto:{APP_CONFIG.contact.email}" class="premium-contact-link flex items-center text-sm text-slate-500 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all duration-300 ease-out p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700/60 group">
+				<div class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-700 flex items-center justify-center mr-3 rtl:ml-3 rtl:mr-0 group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/50 transition-all duration-300">
+				  <Mail class="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
+				</div>
+				<span class="font-medium">{APP_CONFIG.contact.email}</span>
 			  </a>
 			</div>
 		  </div>
@@ -533,120 +523,304 @@
   {/if}
 
   <style>
-	@keyframes search-appear {
-	  from {
-		opacity: 0;
-		transform: scale(0.95) translateY(-10px);
-	  }
-	  to {
-		opacity: 1;
-		transform: scale(1) translateY(0);
-	  }
+	/* High Contrast Premium Hamburger Animations */
+	.premium-hamburger {
+	  position: relative;
+	  overflow: hidden;
 	}
 
-	.animate-search-appear {
-	  animation: search-appear 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+	.premium-hamburger:before {
+	  content: '';
+	  position: absolute;
+	  top: 50%;
+	  left: 50%;
+	  width: 0;
+	  height: 0;
+	  background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
+	  border-radius: 50%;
+	  transform: translate(-50%, -50%);
+	  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	  z-index: 0;
 	}
 
-	/* Enhanced mobile menu scrolling with proper height calculation */
-	.mobile-nav-content {
+	.premium-hamburger:hover:before {
+	  width: 120px;
+	  height: 120px;
+	}
+
+	.premium-hamburger.active:before {
+	  width: 140px;
+	  height: 140px;
+	  background: radial-gradient(circle, rgba(16, 185, 129, 0.25) 0%, transparent 70%);
+	}
+
+	.hamburger-line {
+	  transform-origin: center;
+	  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.1));
+	}
+
+	.premium-hamburger .hamburger-line {
+	  stroke: rgb(71, 85, 105); /* slate-600 */
+	}
+
+	.dark .premium-hamburger .hamburger-line {
+	  stroke: rgb(226, 232, 240); /* slate-200 */
+	}
+
+	.premium-hamburger:hover .hamburger-line {
+	  stroke: rgb(16, 185, 129); /* emerald-500 */
+	}
+
+	.premium-hamburger.active .hamburger-line {
+	  stroke: rgb(16, 185, 129); /* emerald-500 */
+	}
+
+	.dark .premium-hamburger.active .hamburger-line {
+	  stroke: rgb(52, 211, 153); /* emerald-400 */
+	}
+
+	/* High Contrast Side Navigation */
+	.premium-nav-overlay {
+	  backdrop-filter: blur(16px);
+	  -webkit-backdrop-filter: blur(16px);
+	}
+
+	.premium-side-nav {
+	  contain: layout style paint;
+	  will-change: transform, opacity;
+	  background: rgb(255, 255, 255); /* Solid white in light mode */
+	}
+
+	.dark .premium-side-nav {
+	  background: rgb(15, 23, 42); /* Solid slate-900 in dark mode */
+	}
+
+	/* High Contrast Premium Scrollbar */
+	.premium-scrollbar {
 	  scrollbar-width: thin;
-	  scrollbar-color: rgba(148, 163, 184, 0.3) transparent;
+	  scrollbar-color: rgba(16, 185, 129, 0.4) rgba(148, 163, 184, 0.2);
+	  scroll-behavior: smooth;
 	}
 
-	.mobile-nav-content::-webkit-scrollbar {
-	  width: 4px;
+	.dark .premium-scrollbar {
+	  scrollbar-color: rgba(52, 211, 153, 0.4) rgba(71, 85, 105, 0.3);
 	}
 
-	.mobile-nav-content::-webkit-scrollbar-track {
-	  background: transparent;
+	.premium-scrollbar::-webkit-scrollbar {
+	  width: 8px;
 	}
 
-	.mobile-nav-content::-webkit-scrollbar-thumb {
-	  background-color: rgba(148, 163, 184, 0.3);
-	  border-radius: 2px;
+	.premium-scrollbar::-webkit-scrollbar-track {
+	  background: rgba(148, 163, 184, 0.2);
+	  border-radius: 10px;
 	}
 
-	.mobile-nav-content::-webkit-scrollbar-thumb:hover {
-	  background-color: rgba(148, 163, 184, 0.5);
+	.dark .premium-scrollbar::-webkit-scrollbar-track {
+	  background: rgba(71, 85, 105, 0.3);
 	}
 
-	/* Enhanced focus styles for accessibility */
+	.premium-scrollbar::-webkit-scrollbar-thumb {
+	  background: linear-gradient(135deg, rgba(16, 185, 129, 0.5), rgba(16, 185, 129, 0.7));
+	  border-radius: 10px;
+	  border: 2px solid transparent;
+	  background-clip: content-box;
+	}
+
+	.dark .premium-scrollbar::-webkit-scrollbar-thumb {
+	  background: linear-gradient(135deg, rgba(52, 211, 153, 0.5), rgba(52, 211, 153, 0.7));
+	}
+
+	.premium-scrollbar::-webkit-scrollbar-thumb:hover {
+	  background: linear-gradient(135deg, rgba(16, 185, 129, 0.7), rgba(16, 185, 129, 0.9));
+	}
+
+	.dark .premium-scrollbar::-webkit-scrollbar-thumb:hover {
+	  background: linear-gradient(135deg, rgba(52, 211, 153, 0.7), rgba(52, 211, 153, 0.9));
+	}
+
+	/* High Contrast Navigation Item Animations */
+	@keyframes slideInFade {
+	  0% {
+		opacity: 0;
+		transform: translateX(-20px) translateY(10px);
+	  }
+	  100% {
+		opacity: 1;
+		transform: translateX(0) translateY(0);
+	  }
+	}
+
+	@keyframes slideInFadeRTL {
+	  0% {
+		opacity: 0;
+		transform: translateX(20px) translateY(10px);
+	  }
+	  100% {
+		opacity: 1;
+		transform: translateX(0) translateY(0);
+	  }
+	}
+
+	.nav-item {
+	  animation: slideInFade 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+	  opacity: 0;
+	}
+
+	[dir="rtl"] .nav-item {
+	  animation: slideInFadeRTL 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+	}
+
+	.submenu-item {
+	  animation: slideInFade 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+	  opacity: 0;
+	}
+
+	[dir="rtl"] .submenu-item {
+	  animation: slideInFadeRTL 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+	}
+
+	/* High Contrast Icon Animations */
+	.icon-container {
+	  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+	}
+
+	.dark .icon-container {
+	  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+	}
+
+	.icon-container:hover {
+	  filter: drop-shadow(0 4px 8px rgba(16, 185, 129, 0.3));
+	}
+
+	.dark .icon-container:hover {
+	  filter: drop-shadow(0 4px 8px rgba(52, 211, 153, 0.4));
+	}
+
+	/* High Contrast Control Buttons */
+	.premium-control-btn {
+	  position: relative;
+	  overflow: hidden;
+	}
+
+	.premium-control-btn:before {
+	  content: '';
+	  position: absolute;
+	  top: 50%;
+	  left: 50%;
+	  width: 0;
+	  height: 0;
+	  background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+	  border-radius: 50%;
+	  transform: translate(-50%, -50%);
+	  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	  z-index: 0;
+	}
+
+	.premium-control-btn:hover:before {
+	  width: 100px;
+	  height: 100px;
+	}
+
+	/* High Contrast Contact Links */
+	.premium-contact-link {
+	  position: relative;
+	  overflow: hidden;
+	}
+
+	.premium-contact-link:before {
+	  content: '';
+	  position: absolute;
+	  inset: 0;
+	  background: linear-gradient(135deg, transparent, rgba(16, 185, 129, 0.05), transparent);
+	  opacity: 0;
+	  transition: opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	}
+
+	.dark .premium-contact-link:before {
+	  background: linear-gradient(135deg, transparent, rgba(52, 211, 153, 0.1), transparent);
+	}
+
+	.premium-contact-link:hover:before {
+	  opacity: 1;
+	}
+
+	/* High Contrast Focus States */
 	button:focus-visible,
 	a:focus-visible {
-	  outline: 2px solid theme('colors.emerald.500');
+	  outline: 2px solid rgba(16, 185, 129, 0.8);
 	  outline-offset: 2px;
+	  border-radius: 0.75rem;
+	  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
 	}
 
-	/* RTL specific animations */
+	.dark button:focus-visible,
+	.dark a:focus-visible {
+	  outline: 2px solid rgba(52, 211, 153, 0.8);
+	  box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.2);
+	}
+
+	/* RTL Support */
 	[dir="rtl"] .group-hover\:translate-x-1 {
 	  transform: translateX(-0.25rem);
 	}
 
-	/* Background color fixes */
-	.backdrop-blur-xl {
-	  backdrop-filter: blur(24px);
-	  -webkit-backdrop-filter: blur(24px);
-	}
-
-	.backdrop-blur-sm {
-	  backdrop-filter: blur(4px);
-	  -webkit-backdrop-filter: blur(4px);
-	}
-
-	/* Smooth submenu animation with proper max-height */
-	.max-h-0 {
-	  max-height: 0;
-	}
-
-	.max-h-\[500px\] {
-	  max-height: 500px;
-	}
-
-	/* Enhanced mobile panel styling with solid backgrounds */
-	.mobile-menu-panel {
-	  background-color: rgb(255 255 255);
-	}
-
-	.dark .mobile-menu-panel {
-	  background-color: rgb(15 23 42);
-	}
-
-	/* Performance optimizations */
-	.mobile-menu-panel {
-	  contain: layout style paint;
-	  will-change: transform;
-	}
-
-	/* Prevent bounce scroll on iOS */
-	.mobile-nav-content {
+	/* Prevent Scroll Bounce */
+	.premium-scrollbar {
 	  -webkit-overflow-scrolling: touch;
 	  overscroll-behavior: contain;
 	}
 
-	/* Accessibility improvements */
+	/* Reduced Motion Support */
 	@media (prefers-reduced-motion: reduce) {
-	  .transition-all,
-	  .transition-transform,
-	  .transition-colors {
-		transition-duration: 0.01ms !important;
-	  }
-	  
-	  .animate-pulse {
+	  .nav-item,
+	  .submenu-item,
+	  .premium-hamburger,
+	  .premium-side-nav,
+	  .premium-control-btn,
+	  .premium-contact-link {
 		animation: none !important;
+		transition-duration: 0.01ms !important;
 	  }
 	}
 
-	/* Enhanced responsive design */
+	/* High Contrast Mobile Responsiveness */
 	@media (max-width: 768px) {
-	  .mobile-nav-content {
-		max-height: calc(100vh - 228px);
+	  .premium-side-nav {
+		max-width: 90vw;
 	  }
 	}
 
 	@media (max-width: 640px) {
-	  .mobile-nav-content {
-		max-height: calc(100vh - 228px);
+	  .premium-side-nav {
+		max-width: 95vw;
 	  }
+	  
+	  .premium-hamburger {
+		padding: 0.75rem;
+	  }
+	}
+
+	/* High Contrast Premium Hover Effects */
+	.premium-hamburger:hover {
+	  transform: translateY(-2px) scale(1.02);
+	  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+	}
+
+	.dark .premium-hamburger:hover {
+	  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+	}
+
+	.premium-hamburger.active {
+	  transform: scale(0.96);
+	  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.25);
+	}
+
+	.dark .premium-hamburger.active {
+	  box-shadow: 0 6px 20px rgba(52, 211, 153, 0.3);
+	}
+
+	/* High Contrast Transitions */
+	* {
+	  transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 	}
   </style>

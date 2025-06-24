@@ -10,6 +10,9 @@
 	onMount(() => {
 		mounted = true;
 	});
+
+	// Get the appropriate features based on locale
+	let currentFeatures = ($locale || 'en') === 'ar' ? service.features : (service.featuresEn || service.features);
 </script>
 
 <div class={`group bg-white dark:bg-slate-800 rounded-xl shadow-sm hover:shadow-lg transition-all duration-500 transform hover:-translate-y-1 border border-slate-100 dark:border-slate-700 hover:border-emerald-200 dark:hover:border-emerald-700 overflow-hidden ${mounted ? 'animate-fade-in-up' : 'opacity-0'}`}>
@@ -33,10 +36,10 @@
 			{($locale || 'en') === 'ar' ? service.description : service.descriptionEn}
 		</p>
 
-		<!-- Compact Features List -->
-		{#if service.features}
+		<!-- Compact Features List with Proper Translation -->
+		{#if currentFeatures && currentFeatures.length > 0}
 			<ul class="space-y-2 mb-5">
-				{#each service.features.slice(0, 3) as feature}
+				{#each currentFeatures.slice(0, 3) as feature}
 					<li class="flex items-center text-xs text-slate-600 dark:text-slate-300">
 						<CheckCircle class="w-3 h-3 text-emerald-500 mr-2 rtl:ml-2 rtl:mr-0 flex-shrink-0" />
 						<span class="font-medium">{feature}</span>

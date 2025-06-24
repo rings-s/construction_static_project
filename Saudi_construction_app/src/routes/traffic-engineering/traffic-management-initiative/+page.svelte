@@ -1,4 +1,4 @@
-<!-- src/routes/transport-planning/swept-path-analysis/+page.svelte -->
+<!-- src/routes/transport-planning/traffic-management-initiatives/+page.svelte -->
 <script>
 	import { onMount } from 'svelte';
 	import { locale } from 'svelte-i18n';
@@ -36,10 +36,7 @@
 		Construction,
 		Timer,
 		MapPinned,
-		TrafficCone,
-		RotateCcw,
-		Compass,
-		Truck
+		TrafficCone
 	} from 'lucide-svelte';
 	import { APP_CONFIG } from '$lib/config/app.js';
 
@@ -52,7 +49,7 @@
 		mounted = true;
 		
 		// Generate particles for background animation
-		particles = Array.from({ length:50 }, (_, i) => ({
+		particles = Array.from({ length: 50 }, (_, i) => ({
 			id: i,
 			x: Math.random() * 100,
 			y: Math.random() * 100,
@@ -105,104 +102,104 @@
 
 	const features = [
 		{
-			icon: RotateCcw,
-			title: 'تحليل مسار الدوران للمركبات',
-			titleEn: 'Vehicle Turning Path Analysis',
-			description: 'تحليل دقيق لمسار المركبات أثناء الدوران والمناورة لضمان التصميم الآمن والفعال للطرق والتقاطعات',
-			descriptionEn: 'Precise analysis of vehicle paths during turning and maneuvering to ensure safe and efficient design of roads and intersections',
+			icon: TrafficCone,
+			title: 'إدارة المرور المؤقت في أعمال الطرق',
+			titleEn: 'Temporary Traffic Management at Roadworks',
+			description: 'تطوير مفاهيم إدارة المرور المؤقت للتشغيل الآمن والفعال أثناء أعمال الطرق والصيانة',
+			descriptionEn: 'Developing temporary traffic management concepts for safe and efficient operation during roadworks and maintenance',
 			color: 'from-emerald-500 to-blue-600',
-			image: '/images/features/turning-path.jpg'
+			image: '/images/features/temporary-traffic.jpg'
 		},
 		{
-			icon: Truck,
-			title: 'تحليل وصول المركبات الكبيرة',
-			titleEn: 'Large Vehicle Access Analysis',
-			description: 'تحليل متخصص لضمان وصول المركبات الكبيرة والشاحنات والحافلات إلى المواقع المختلفة بأمان',
-			descriptionEn: 'Specialized analysis ensuring safe access for large vehicles, trucks, and buses to various locations',
+			icon: Route,
+			title: 'إعادة توجيه المرور الدائم',
+			titleEn: 'Permanent Traffic Redirection',
+			description: 'حلول إعادة توجيه المرور الدائمة لتخفيف الازدحام في المناطق المحددة وتحسين تدفق المرور',
+			descriptionEn: 'Permanent traffic redirection solutions to ease congestion in specific areas and improve traffic flow',
 			color: 'from-purple-500 to-emerald-600',
-			image: '/images/features/large-vehicle.jpg'
-		},
-		{
-			icon: MapPinned,
-			title: 'تصميم مواقف السيارات',
-			titleEn: 'Parking Lot Design Analysis',
-			description: 'تحليل مسارات المركبات في مواقف السيارات لضمان سهولة الوصول والمناورة في المساحات المختلفة',
-			descriptionEn: 'Analysis of vehicle paths in parking lots to ensure easy access and maneuvering in different spaces',
-			color: 'from-blue-500 to-purple-600',
-			image: '/images/features/parking-design.jpg'
-		},
-		{
-			icon: Shield,
-			title: 'وصول مركبات الطوارئ',
-			titleEn: 'Emergency Vehicle Access',
-			description: 'تحليل خاص لضمان وصول مركبات الطوارئ وسيارات الإطفاء والإسعاف إلى جميع المناطق المطلوبة',
-			descriptionEn: 'Special analysis ensuring emergency vehicles, fire trucks, and ambulances can access all required areas',
-			color: 'from-amber-500 to-emerald-600',
-			image: '/images/features/emergency-access.jpg'
+			image: '/images/features/permanent-redirection.jpg'
 		},
 		{
 			icon: Settings,
-			title: 'محاكاة البرمجيات المتقدمة',
-			titleEn: 'Advanced Software Simulation',
-			description: 'استخدام برمجيات متطورة لمحاكاة مسارات المركبات وتحليل السيناريوهات المختلفة بدقة عالية',
-			descriptionEn: 'Using advanced software to simulate vehicle paths and analyze different scenarios with high precision',
-			color: 'from-green-500 to-blue-600',
-			image: '/images/features/software-simulation.jpg'
+			title: 'أنظمة التحكم في المرور',
+			titleEn: 'Traffic Control Systems',
+			description: 'تصميم وتنفيذ أنظمة متطورة للتحكم في المرور لتحسين الكفاءة وضمان السلامة',
+			descriptionEn: 'Design and implementation of advanced traffic control systems to improve efficiency and ensure safety',
+			color: 'from-blue-500 to-purple-600',
+			image: '/images/features/control-systems.jpg'
 		},
 		{
-			icon: CheckCircle,
-			title: 'الامتثال لمعايير التصميم',
-			titleEn: 'Design Standards Compliance',
-			description: 'ضمان امتثال التصميمات لجميع المعايير والأنظمة المحلية والدولية للسلامة المرورية',
-			descriptionEn: 'Ensuring designs comply with all local and international standards and regulations for traffic safety',
+			icon: Monitor,
+			title: 'أنظمة اللافتات والتوجيه',
+			titleEn: 'Signage and Guidance Systems',
+			description: 'تطوير أنظمة لافتات شاملة وحلول توجيه لتحسين تجربة السائقين وضمان الوضوح',
+			descriptionEn: 'Developing comprehensive signage systems and guidance solutions to enhance driver experience and ensure clarity',
+			color: 'from-amber-500 to-emerald-600',
+			image: '/images/features/signage-systems.jpg'
+		},
+		{
+			icon: Timer,
+			title: 'الإدارة المرورية بدوام جزئي',
+			titleEn: 'Part-Time Traffic Management',
+			description: 'حلول إدارة مرور مرنة للأوقات المحددة والظروف الخاصة لتحسين الكفاءة التشغيلية',
+			descriptionEn: 'Flexible traffic management solutions for specific times and special conditions to improve operational efficiency',
+			color: 'from-green-500 to-blue-600',
+			image: '/images/features/part-time-management.jpg'
+		},
+		{
+			icon: BarChart3,
+			title: 'تحليل أوقات السفر ومواقيت الحافلات',
+			titleEn: 'Travel Times & Bus Route Analysis',
+			description: 'تحليل شامل لأوقات السفر وأوقات توقف الحافلات لتحسين النقل العام وتقليل التأخير',
+			descriptionEn: 'Comprehensive analysis of travel times and bus route dwell times to improve public transport and reduce delays',
 			color: 'from-indigo-500 to-purple-600',
-			image: '/images/features/compliance.jpg'
+			image: '/images/features/travel-analysis.jpg'
 		}
 	];
 
 	const benefits = [
 		{
-			title: 'ضمان الوصول الآمن للمركبات',
-			titleEn: 'Ensuring Safe Vehicle Access',
-			description: 'تحليل شامل لمسارات المركبات يضمن وصول آمن وفعال لجميع أنواع المركبات بما في ذلك الكبيرة منها',
-			descriptionEn: 'Comprehensive vehicle path analysis ensuring safe and efficient access for all vehicle types including large ones',
-			image: '/images/benefits/safe-access.jpg'
+			title: 'حلول شاملة من أعمال الطرق إلى تخفيف الازدحام',
+			titleEn: 'Comprehensive Solutions from Roadworks to Congestion Relief',
+			description: 'قدراتنا تشمل توفير مفاهيم إدارة المرور من التشغيل المؤقت في أعمال الطرق إلى إعادة التوجيه الدائم',
+			descriptionEn: 'Our capabilities provide traffic management concepts from temporary running at roadworks to permanent redirection',
+			image: '/images/benefits/comprehensive-solutions.jpg'
 		},
 		{
-			title: 'تحسين تصميم المرافق',
-			titleEn: 'Enhanced Facility Design',
-			description: 'تحسين تصميم مواقف السيارات والتقاطعات ومناطق التحميل لضمان سهولة المناورة والكفاءة التشغيلية',
-			descriptionEn: 'Improving design of parking lots, intersections, and loading areas to ensure easy maneuvering and operational efficiency',
-			image: '/images/benefits/facility-design.jpg'
+			title: 'مبادرات متكاملة لإدارة المرور',
+			titleEn: 'Integrated Traffic Management Initiatives',
+			description: 'مبادراتنا تشمل أنظمة التحكم في المرور واللافتات والإدارة بدوام جزئي ونمذجة المرور',
+			descriptionEn: 'Our initiatives include traffic control systems, signage, part-time management, and traffic modelling',
+			image: '/images/benefits/integrated-initiatives.jpg'
 		},
 		{
-			title: 'امتثال كامل للمعايير',
-			titleEn: 'Full Standards Compliance',
-			description: 'ضمان امتثال جميع التصميمات للمعايير المحلية والدولية مع تقديم تقارير مفصلة وتوثيق شامل',
-			descriptionEn: 'Ensuring all designs comply with local and international standards with detailed reports and comprehensive documentation',
-			image: '/images/benefits/standards-compliance.jpg'
+			title: 'تحسين أوقات السفر والنقل العام',
+			titleEn: 'Enhanced Travel Times & Public Transport',
+			description: 'تحليل وتحسين أوقات السفر وأوقات توقف الحافلات لضمان نظام نقل أكثر كفاءة',
+			descriptionEn: 'Analysis and improvement of travel times and bus route dwell times ensuring more efficient transport systems',
+			image: '/images/benefits/enhanced-travel.jpg'
 		}
 	];
 
 	const stats = [
 		{ 
-			value: '250+', 
-			label: 'تحليل مسار مكتمل', 
-			labelEn: 'Completed Path Analyses', 
-			icon: RotateCcw,
+			value: '400+', 
+			label: 'مشروع إدارة مرور مكتمل', 
+			labelEn: 'Completed Traffic Management Projects', 
+			icon: TrafficCone,
 			color: 'from-emerald-500 to-blue-600'
 		},
 		{ 
-			value: '95%', 
-			label: 'نجاح في أول مراجعة', 
-			labelEn: 'First Review Success Rate', 
-			icon: CheckCircle,
+			value: '60%', 
+			label: 'تقليل في الازدحام', 
+			labelEn: 'Congestion Reduction Rate', 
+			icon: TrendingUp,
 			color: 'from-blue-500 to-purple-600'
 		},
 		{ 
-			value: '10+', 
-			label: 'سنة خبرة متخصصة', 
-			labelEn: 'Years Specialized Experience', 
+			value: '15+', 
+			label: 'سنة خبرة في إدارة المرور', 
+			labelEn: 'Years Traffic Management Experience', 
 			icon: Award,
 			color: 'from-purple-500 to-emerald-600'
 		},
@@ -210,7 +207,7 @@
 			value: '100%', 
 			label: 'رضا العملاء', 
 			labelEn: 'Client Satisfaction', 
-			icon: Shield,
+			icon: CheckCircle,
 			color: 'from-amber-500 to-emerald-600'
 		}
 	];
@@ -234,8 +231,8 @@
 </script>
 
 <svelte:head>
-	<title>{($locale || 'en') === 'ar' ? 'تحليل مسار المركبات' : 'Swept Path Analysis'} - {($locale || 'en') === 'ar' ? APP_CONFIG.name : APP_CONFIG.nameEn}</title>
-	<meta name="description" content="{($locale || 'en') === 'ar' ? 'خدمات تحليل مسار المركبات المتخصصة لضمان الوصول الآمن والفعال لجميع أنواع المركبات' : 'Specialized Swept Path Analysis services ensuring safe and efficient access for all vehicle types'}" />
+	<title>{($locale || 'en') === 'ar' ? 'مبادرات إدارة المرور' : 'Traffic Management Initiatives'} - {($locale || 'en') === 'ar' ? APP_CONFIG.name : APP_CONFIG.nameEn}</title>
+	<meta name="description" content="{($locale || 'en') === 'ar' ? 'خدمات مبادرات إدارة المرور المتخصصة من أعمال الطرق إلى تخفيف المناطق المزدحمة' : 'Specialized Traffic Management Initiatives services from roadworks to relieving congested areas'}" />
 </svelte:head>
 
 <!-- Enhanced Hero Section -->
@@ -251,30 +248,25 @@
 		<!-- Geometric Grid -->
 		<svg class="absolute inset-0 w-full h-full opacity-30 dark:opacity-20" viewBox="0 0 1200 800">
 			<defs>
-				<pattern id="pathGrid" width="100" height="100" patternUnits="userSpaceOnUse">
+				<pattern id="managementGrid" width="100" height="100" patternUnits="userSpaceOnUse">
 					<circle cx="50" cy="50" r="2" fill="currentColor" opacity="0.3">
 						<animate attributeName="r" values="1;3;1" dur="4s" repeatCount="indefinite"/>
 					</circle>
 					<path d="M 100 0 L 0 0 0 100" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.1"/>
 				</pattern>
-				<linearGradient id="pathWave" x1="0%" y1="0%" x2="100%" y2="0%">
+				<linearGradient id="managementWave" x1="0%" y1="0%" x2="100%" y2="0%">
 					<stop offset="0%" style="stop-color:#10b981;stop-opacity:0.4"/>
 					<stop offset="50%" style="stop-color:#3b82f6;stop-opacity:0.6"/>
 					<stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:0.4"/>
 				</linearGradient>
 			</defs>
 			
-			<rect width="100%" height="100%" fill="url(#pathGrid)" />
+			<rect width="100%" height="100%" fill="url(#managementGrid)" />
 			
-			<!-- Animated Path Lines -->
-			<path d="M0,200 Q300,100 600,200 T1200,200" stroke="url(#pathWave)" stroke-width="4" fill="none" opacity="0.6" class="path-line-1"/>
-			<path d="M0,400 Q400,300 800,400 T1200,400" stroke="url(#pathWave)" stroke-width="3" fill="none" opacity="0.5" class="path-line-2"/>
-			<path d="M0,600 Q200,500 400,600 T1200,600" stroke="url(#pathWave)" stroke-width="2" fill="none" opacity="0.4" class="path-line-3"/>
-			
-			<!-- Vehicle Path Simulation -->
-			<g class="animate-vehicle-path">
-				<path d="M100,400 Q300,350 500,400 Q700,450 900,400" stroke="url(#pathWave)" stroke-width="6" fill="none" opacity="0.8" stroke-dasharray="20 10"/>
-			</g>
+			<!-- Animated Management Lines -->
+			<path d="M0,200 Q300,100 600,200 T1200,200" stroke="url(#managementWave)" stroke-width="4" fill="none" opacity="0.6" class="management-line-1"/>
+			<path d="M0,400 Q400,300 800,400 T1200,400" stroke="url(#managementWave)" stroke-width="3" fill="none" opacity="0.5" class="management-line-2"/>
+			<path d="M0,600 Q200,500 400,600 T1200,600" stroke="url(#managementWave)" stroke-width="2" fill="none" opacity="0.4" class="management-line-3"/>
 		</svg>
 		
 		<!-- Floating Particles -->
@@ -310,19 +302,19 @@
 			
 			<!-- Enhanced Badge -->
 			<div class={`inline-flex items-center px-6 py-4 bg-gradient-to-r from-emerald-100/80 to-blue-100/80 dark:from-emerald-900/30 dark:to-blue-900/30 backdrop-blur-xl text-emerald-700 dark:text-emerald-300 rounded-full border border-emerald-200/50 dark:border-emerald-700/50 text-sm font-bold mb-8 transition-all duration-1000 ${mounted ? 'animate-slide-up-bounce' : 'opacity-0'} shadow-lg hover:shadow-2xl hover:scale-105`}>
-				<RotateCcw class="w-4 h-4 mr-3 rtl:ml-3 rtl:mr-0" />
-				<span class="mr-2 rtl:ml-2 rtl:mr-0 text-lg">🔄</span>
-				{($locale || 'en') === 'ar' ? 'تحليل مسار المركبات' : 'Swept Path Analysis'}
+				<TrafficCone class="w-4 h-4 mr-3 rtl:ml-3 rtl:mr-0" />
+				<span class="mr-2 rtl:ml-2 rtl:mr-0 text-lg">🚧</span>
+				{($locale || 'en') === 'ar' ? 'مبادرات إدارة المرور' : 'Traffic Management Initiatives'}
 			</div>
 			
 			<!-- Enhanced Title -->
 			<div class={`transition-all duration-1000 delay-200 ${mounted ? 'animate-slide-up-bounce' : 'opacity-0'}`}>
 				<h1 class="text-5xl lg:text-6xl xl:text-7xl font-black leading-tight mb-8">
 					<span class="block bg-gradient-to-r from-emerald-600 via-blue-600 to-purple-600 bg-clip-text text-transparent animate-gradient-flow bg-300%">
-						{($locale || 'en') === 'ar' ? 'تحليل مسار' : 'Swept Path'}
+						{($locale || 'en') === 'ar' ? 'مبادرات إدارة' : 'Traffic Management'}
 					</span>
 					<span class="block text-2xl lg:text-3xl xl:text-4xl font-black text-slate-700 dark:text-slate-300 mt-6 animate-fade-in-delayed">
-						{($locale || 'en') === 'ar' ? 'المركبات' : 'Analysis'}
+						{($locale || 'en') === 'ar' ? 'المرور' : 'Initiatives'}
 					</span>
 				</h1>
 			</div>
@@ -331,8 +323,8 @@
 			<div class={`transition-all duration-1000 delay-400 ${mounted ? 'animate-slide-up-bounce' : 'opacity-0'}`}>
 				<p class="text-xl lg:text-2xl text-slate-600 dark:text-slate-300 leading-relaxed max-w-4xl mx-auto mb-8">
 					{($locale || 'en') === 'ar' 
-						? 'تحليل دقيق لمسارات المركبات لضمان الوصول الآمن والفعال لجميع أنواع المركبات'
-						: 'Precise vehicle path analysis ensuring safe and efficient access for all vehicle types'
+						? 'من أعمال الطرق إلى تخفيف المناطق المزدحمة - حلول شاملة لإدارة المرور'
+						: 'From roadworks to relieving congested areas - comprehensive traffic management solutions'
 					}
 				</p>
 				
@@ -389,12 +381,12 @@
 	<div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 		<div class="text-center mb-16">
 			<h2 class="text-3xl lg:text-4xl font-black text-slate-900 dark:text-white mb-4">
-				{($locale || 'en') === 'ar' ? 'خدمات تحليل مسار المركبات' : 'Swept Path Analysis Services'}
+				{($locale || 'en') === 'ar' ? 'خدمات مبادرات إدارة المرور' : 'Traffic Management Initiatives Services'}
 			</h2>
 			<p class="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
 				{($locale || 'en') === 'ar'
-					? 'حلول متخصصة لتحليل مسارات المركبات وضمان الوصول الآمن لجميع أنواع المركبات'
-					: 'Specialized solutions for vehicle path analysis ensuring safe access for all vehicle types'
+					? 'حلول متكاملة لإدارة المرور من التطبيقات المؤقتة إلى الحلول الدائمة'
+					: 'Integrated traffic management solutions from temporary applications to permanent solutions'
 				}
 			</p>
 		</div>
@@ -486,7 +478,7 @@
 				{($locale || 'en') === 'ar' ? 'فوائد خدماتنا' : 'Benefits of Our Services'}
 			</h2>
 			<p class="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
-				{($locale || 'en') === 'ar' ? 'اكتشف كيف يمكن لتحليل مسار المركبات أن يحسن من أمان وكفاءة مشروعك' : 'Discover how Swept Path Analysis can enhance your project safety and efficiency'}
+				{($locale || 'en') === 'ar' ? 'اكتشف كيف يمكن لمبادرات إدارة المرور أن تحسن من كفاءة مشروعك' : 'Discover how Traffic Management Initiatives can enhance your project efficiency'}
 			</p>
 		</div>
 
@@ -509,9 +501,9 @@
 						<!-- Fallback -->
 						<div class="absolute inset-0 bg-gradient-to-br from-emerald-100 via-blue-50 to-emerald-200 dark:from-emerald-900/30 dark:via-blue-900/20 dark:to-emerald-800/30 flex items-center justify-center" style="display: none;">
 							<div class="text-center">
-								<div class="text-6xl mb-4">🔄</div>
+								<div class="text-6xl mb-4">🚧</div>
 								<div class="text-emerald-600 dark:text-emerald-400 font-bold">
-									{($locale || 'en') === 'ar' ? 'فائدة تحليل' : 'Analysis Benefit'}
+									{($locale || 'en') === 'ar' ? 'فائدة إدارة' : 'Management Benefit'}
 								</div>
 							</div>
 						</div>
@@ -541,12 +533,12 @@
 
 	<div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 		<h2 class="text-3xl lg:text-4xl font-black text-slate-900 dark:text-white mb-4">
-			{($locale || 'en') === 'ar' ? 'هل تحتاج تحليل مسار المركبات لمشروعك؟' : 'Need Swept Path Analysis for Your Project?'}
+			{($locale || 'en') === 'ar' ? 'هل تحتاج مبادرات إدارة المرور لمشروعك؟' : 'Need Traffic Management Initiatives for Your Project?'}
 		</h2>
 		<p class="text-xl text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
 			{($locale || 'en') === 'ar'
-				? 'خبراؤنا في تحليل مسار المركبات جاهزون لضمان الوصول الآمن والفعال لجميع أنواع المركبات'
-				: 'Our swept path analysis experts are ready to ensure safe and efficient access for all vehicle types'
+				? 'خبراؤنا في إدارة المرور جاهزون لتطوير حلول مخصصة من أعمال الطرق إلى تخفيف الازدحام'
+				: 'Our traffic management experts are ready to develop customized solutions from roadworks to congestion relief'
 			}
 		</p>
 		
@@ -736,13 +728,8 @@
 		}
 	}
 
-	@keyframes path-line-flow {
+	@keyframes management-line-flow {
 		0% { stroke-dashoffset: 0; }
-		100% { stroke-dashoffset: -100; }
-	}
-
-	@keyframes vehicle-path {
-		0% { stroke-dashoffset: 100; }
 		100% { stroke-dashoffset: -100; }
 	}
 	
@@ -763,22 +750,21 @@
 	.animate-light-ray-slow { animation: light-ray-slow 12s ease-in-out infinite; }
 	.animate-count-up-advanced { animation: count-up-advanced 1s ease-out; }
 	.animate-fade-in-delayed { animation: fade-in-delayed 2s ease-out; }
-	.animate-vehicle-path { animation: vehicle-path 8s ease-in-out infinite; }
 	
-	/* Path Animation */
-	.path-line-1 {
+	/* Management Animation */
+	.management-line-1 {
 		stroke-dasharray: 20 10;
-		animation: path-line-flow 4s linear infinite;
+		animation: management-line-flow 4s linear infinite;
 	}
 	
-	.path-line-2 {
+	.management-line-2 {
 		stroke-dasharray: 15 8;
-		animation: path-line-flow 5s linear infinite reverse;
+		animation: management-line-flow 5s linear infinite reverse;
 	}
 	
-	.path-line-3 {
+	.management-line-3 {
 		stroke-dasharray: 10 5;
-		animation: path-line-flow 6s linear infinite;
+		animation: management-line-flow 6s linear infinite;
 	}
 
 	/* Utility Classes */
@@ -794,8 +780,7 @@
 	.animate-float-slow,
 	.animate-float-reverse,
 	.animate-pulse-subtle,
-	.animate-gradient-flow,
-	.animate-vehicle-path {
+	.animate-gradient-flow {
 		will-change: transform;
 		transform: translateZ(0);
 	}

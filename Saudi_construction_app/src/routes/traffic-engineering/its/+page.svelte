@@ -1,4 +1,4 @@
-<!-- src/routes/transport-planning/swept-path-analysis/+page.svelte -->
+<!-- src/routes/transport-planning/intelligent-transport-systems/+page.svelte -->
 <script>
 	import { onMount } from 'svelte';
 	import { locale } from 'svelte-i18n';
@@ -29,17 +29,7 @@
 		Wifi,
 		Camera,
 		Navigation,
-		Radio,
-		Eye,
-		Search,
-		FileSearch,
-		Construction,
-		Timer,
-		MapPinned,
-		TrafficCone,
-		RotateCcw,
-		Compass,
-		Truck
+		Radio
 	} from 'lucide-svelte';
 	import { APP_CONFIG } from '$lib/config/app.js';
 
@@ -52,7 +42,7 @@
 		mounted = true;
 		
 		// Generate particles for background animation
-		particles = Array.from({ length:50 }, (_, i) => ({
+		particles = Array.from({ length: 50 }, (_, i) => ({
 			id: i,
 			x: Math.random() * 100,
 			y: Math.random() * 100,
@@ -105,104 +95,104 @@
 
 	const features = [
 		{
-			icon: RotateCcw,
-			title: 'تحليل مسار الدوران للمركبات',
-			titleEn: 'Vehicle Turning Path Analysis',
-			description: 'تحليل دقيق لمسار المركبات أثناء الدوران والمناورة لضمان التصميم الآمن والفعال للطرق والتقاطعات',
-			descriptionEn: 'Precise analysis of vehicle paths during turning and maneuvering to ensure safe and efficient design of roads and intersections',
+			icon: Camera,
+			title: 'أجهزة كشف المركبات المتقدمة',
+			titleEn: 'Advanced Vehicle Detection Systems',
+			description: 'تقنيات متطورة لتحديد وتصنيف أنواع المركبات المختلفة بما في ذلك المركبات الثقيلة والدراجات الهوائية',
+			descriptionEn: 'Advanced technologies for identifying and classifying different vehicle types including heavy vehicles and bicycles',
 			color: 'from-emerald-500 to-blue-600',
-			image: '/images/features/turning-path.jpg'
+			image: '/images/features/vehicle-detection.jpg'
 		},
 		{
-			icon: Truck,
-			title: 'تحليل وصول المركبات الكبيرة',
-			titleEn: 'Large Vehicle Access Analysis',
-			description: 'تحليل متخصص لضمان وصول المركبات الكبيرة والشاحنات والحافلات إلى المواقع المختلفة بأمان',
-			descriptionEn: 'Specialized analysis ensuring safe access for large vehicles, trucks, and buses to various locations',
+			icon: Monitor,
+			title: 'أنظمة اللافتات المتغيرة',
+			titleEn: 'Variable Message Sign Systems',
+			description: 'لافتات ذكية متغيرة لتوجيه المرور وتقديم معلومات الوجهات كبديل للافتات التقليدية',
+			descriptionEn: 'Smart variable signs for traffic guidance and destination information replacing traditional advance signs',
 			color: 'from-purple-500 to-emerald-600',
-			image: '/images/features/large-vehicle.jpg'
+			image: '/images/features/variable-signs.jpg'
 		},
 		{
-			icon: MapPinned,
-			title: 'تصميم مواقف السيارات',
-			titleEn: 'Parking Lot Design Analysis',
-			description: 'تحليل مسارات المركبات في مواقف السيارات لضمان سهولة الوصول والمناورة في المساحات المختلفة',
-			descriptionEn: 'Analysis of vehicle paths in parking lots to ensure easy access and maneuvering in different spaces',
+			icon: Route,
+			title: 'أنظمة توجيه وتحكم المرور',
+			titleEn: 'Traffic Direction & Control Systems',
+			description: 'استخدام تقنيات النقل الذكي للتوجيه والتحكم في حركة المرور بكفاءة عالية',
+			descriptionEn: 'Utilizing intelligent transport technologies for efficient traffic direction and control',
 			color: 'from-blue-500 to-purple-600',
-			image: '/images/features/parking-design.jpg'
+			image: '/images/features/traffic-control.jpg'
 		},
 		{
-			icon: Shield,
-			title: 'وصول مركبات الطوارئ',
-			titleEn: 'Emergency Vehicle Access',
-			description: 'تحليل خاص لضمان وصول مركبات الطوارئ وسيارات الإطفاء والإسعاف إلى جميع المناطق المطلوبة',
-			descriptionEn: 'Special analysis ensuring emergency vehicles, fire trucks, and ambulances can access all required areas',
+			icon: Smartphone,
+			title: 'أنظمة معلومات المسافرين',
+			titleEn: 'Traveler Information Systems',
+			description: 'توفير معلومات شاملة لجميع مستخدمي الطريق من السائقين إلى المشاة لمساعدتهم في تخطيط رحلاتهم',
+			descriptionEn: 'Providing comprehensive information for all road users from drivers to pedestrians to assist in journey planning',
 			color: 'from-amber-500 to-emerald-600',
-			image: '/images/features/emergency-access.jpg'
+			image: '/images/features/traveler-info.jpg'
 		},
 		{
-			icon: Settings,
-			title: 'محاكاة البرمجيات المتقدمة',
-			titleEn: 'Advanced Software Simulation',
-			description: 'استخدام برمجيات متطورة لمحاكاة مسارات المركبات وتحليل السيناريوهات المختلفة بدقة عالية',
-			descriptionEn: 'Using advanced software to simulate vehicle paths and analyze different scenarios with high precision',
+			icon: Navigation,
+			title: 'تصميم الطرق السريعة المتحكمة',
+			titleEn: 'Variable Controlled Motorway Design',
+			description: 'تصميمات أولية لأنظمة ITS للطرق السريعة المتحكمة بصورة متغيرة لتحسين تدفق المرور',
+			descriptionEn: 'Preliminary ITS designs for variable controlled motorways to optimize traffic flow',
 			color: 'from-green-500 to-blue-600',
-			image: '/images/features/software-simulation.jpg'
+			image: '/images/features/motorway-control.jpg'
 		},
 		{
-			icon: CheckCircle,
-			title: 'الامتثال لمعايير التصميم',
-			titleEn: 'Design Standards Compliance',
-			description: 'ضمان امتثال التصميمات لجميع المعايير والأنظمة المحلية والدولية للسلامة المرورية',
-			descriptionEn: 'Ensuring designs comply with all local and international standards and regulations for traffic safety',
+			icon: Radio,
+			title: 'أنظمة توجيه ذكية حول المراكز الحضرية',
+			titleEn: 'Intelligent Urban Routing Systems',
+			description: 'لافتات ذكية لتوجيه الطرق البديلة حول مراكز المدن المزدحمة وتقليل الازدحام',
+			descriptionEn: 'Intelligent signs for advising alternative routes around busy town centres to reduce congestion',
 			color: 'from-indigo-500 to-purple-600',
-			image: '/images/features/compliance.jpg'
+			image: '/images/features/urban-routing.jpg'
 		}
 	];
 
 	const benefits = [
 		{
-			title: 'ضمان الوصول الآمن للمركبات',
-			titleEn: 'Ensuring Safe Vehicle Access',
-			description: 'تحليل شامل لمسارات المركبات يضمن وصول آمن وفعال لجميع أنواع المركبات بما في ذلك الكبيرة منها',
-			descriptionEn: 'Comprehensive vehicle path analysis ensuring safe and efficient access for all vehicle types including large ones',
-			image: '/images/benefits/safe-access.jpg'
+			title: 'تحسين تدفق المرور',
+			titleEn: 'Enhanced Traffic Flow',
+			description: 'استخدام التقنيات الذكية لتحسين تدفق المرور وتقليل الازدحام في الطرق والتقاطعات',
+			descriptionEn: 'Using smart technologies to improve traffic flow and reduce congestion on roads and intersections',
+			image: '/images/benefits/traffic-flow.jpg'
 		},
 		{
-			title: 'تحسين تصميم المرافق',
-			titleEn: 'Enhanced Facility Design',
-			description: 'تحسين تصميم مواقف السيارات والتقاطعات ومناطق التحميل لضمان سهولة المناورة والكفاءة التشغيلية',
-			descriptionEn: 'Improving design of parking lots, intersections, and loading areas to ensure easy maneuvering and operational efficiency',
-			image: '/images/benefits/facility-design.jpg'
+			title: 'معلومات فورية للمسافرين',
+			titleEn: 'Real-time Traveler Information',
+			description: 'تقديم معلومات فورية ودقيقة لجميع مستخدمي الطريق لتحسين تجربة السفر والتنقل',
+			descriptionEn: 'Providing real-time and accurate information to all road users to enhance travel and mobility experience',
+			image: '/images/benefits/realtime-info.jpg'
 		},
 		{
-			title: 'امتثال كامل للمعايير',
-			titleEn: 'Full Standards Compliance',
-			description: 'ضمان امتثال جميع التصميمات للمعايير المحلية والدولية مع تقديم تقارير مفصلة وتوثيق شامل',
-			descriptionEn: 'Ensuring all designs comply with local and international standards with detailed reports and comprehensive documentation',
-			image: '/images/benefits/standards-compliance.jpg'
+			title: 'حلول مبتكرة للتحديات المرورية',
+			titleEn: 'Innovative Solutions for Traffic Challenges',
+			description: 'تطوير حلول مبتكرة باستخدام أحدث تقنيات النقل الذكي لمواجهة التحديات المرورية المعاصرة',
+			descriptionEn: 'Developing innovative solutions using latest intelligent transport technologies to address contemporary traffic challenges',
+			image: '/images/benefits/innovative-solutions.jpg'
 		}
 	];
 
 	const stats = [
 		{ 
-			value: '250+', 
-			label: 'تحليل مسار مكتمل', 
-			labelEn: 'Completed Path Analyses', 
-			icon: RotateCcw,
+			value: '200+', 
+			label: 'مشروع أنظمة ذكية مكتمل', 
+			labelEn: 'Completed ITS Projects', 
+			icon: Monitor,
 			color: 'from-emerald-500 to-blue-600'
 		},
 		{ 
 			value: '95%', 
-			label: 'نجاح في أول مراجعة', 
-			labelEn: 'First Review Success Rate', 
-			icon: CheckCircle,
+			label: 'تحسن في تدفق المرور', 
+			labelEn: 'Traffic Flow Improvement', 
+			icon: TrendingUp,
 			color: 'from-blue-500 to-purple-600'
 		},
 		{ 
 			value: '10+', 
-			label: 'سنة خبرة متخصصة', 
-			labelEn: 'Years Specialized Experience', 
+			label: 'سنة خبرة في أنظمة ITS', 
+			labelEn: 'Years ITS Experience', 
 			icon: Award,
 			color: 'from-purple-500 to-emerald-600'
 		},
@@ -234,8 +224,8 @@
 </script>
 
 <svelte:head>
-	<title>{($locale || 'en') === 'ar' ? 'تحليل مسار المركبات' : 'Swept Path Analysis'} - {($locale || 'en') === 'ar' ? APP_CONFIG.name : APP_CONFIG.nameEn}</title>
-	<meta name="description" content="{($locale || 'en') === 'ar' ? 'خدمات تحليل مسار المركبات المتخصصة لضمان الوصول الآمن والفعال لجميع أنواع المركبات' : 'Specialized Swept Path Analysis services ensuring safe and efficient access for all vehicle types'}" />
+	<title>{($locale || 'en') === 'ar' ? 'أنظمة النقل الذكية' : 'Intelligent Transport Systems (ITS)'} - {($locale || 'en') === 'ar' ? APP_CONFIG.name : APP_CONFIG.nameEn}</title>
+	<meta name="description" content="{($locale || 'en') === 'ar' ? 'خدمات أنظمة النقل الذكية المتخصصة لتمهيد الطريق بمبادرات تقنية متطورة' : 'Specialized Intelligent Transport Systems services paving the way with advanced technology initiatives'}" />
 </svelte:head>
 
 <!-- Enhanced Hero Section -->
@@ -251,30 +241,25 @@
 		<!-- Geometric Grid -->
 		<svg class="absolute inset-0 w-full h-full opacity-30 dark:opacity-20" viewBox="0 0 1200 800">
 			<defs>
-				<pattern id="pathGrid" width="100" height="100" patternUnits="userSpaceOnUse">
+				<pattern id="itsGrid" width="100" height="100" patternUnits="userSpaceOnUse">
 					<circle cx="50" cy="50" r="2" fill="currentColor" opacity="0.3">
 						<animate attributeName="r" values="1;3;1" dur="4s" repeatCount="indefinite"/>
 					</circle>
 					<path d="M 100 0 L 0 0 0 100" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.1"/>
 				</pattern>
-				<linearGradient id="pathWave" x1="0%" y1="0%" x2="100%" y2="0%">
+				<linearGradient id="itsWave" x1="0%" y1="0%" x2="100%" y2="0%">
 					<stop offset="0%" style="stop-color:#10b981;stop-opacity:0.4"/>
 					<stop offset="50%" style="stop-color:#3b82f6;stop-opacity:0.6"/>
 					<stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:0.4"/>
 				</linearGradient>
 			</defs>
 			
-			<rect width="100%" height="100%" fill="url(#pathGrid)" />
+			<rect width="100%" height="100%" fill="url(#itsGrid)" />
 			
-			<!-- Animated Path Lines -->
-			<path d="M0,200 Q300,100 600,200 T1200,200" stroke="url(#pathWave)" stroke-width="4" fill="none" opacity="0.6" class="path-line-1"/>
-			<path d="M0,400 Q400,300 800,400 T1200,400" stroke="url(#pathWave)" stroke-width="3" fill="none" opacity="0.5" class="path-line-2"/>
-			<path d="M0,600 Q200,500 400,600 T1200,600" stroke="url(#pathWave)" stroke-width="2" fill="none" opacity="0.4" class="path-line-3"/>
-			
-			<!-- Vehicle Path Simulation -->
-			<g class="animate-vehicle-path">
-				<path d="M100,400 Q300,350 500,400 Q700,450 900,400" stroke="url(#pathWave)" stroke-width="6" fill="none" opacity="0.8" stroke-dasharray="20 10"/>
-			</g>
+			<!-- Animated ITS Lines -->
+			<path d="M0,200 Q300,100 600,200 T1200,200" stroke="url(#itsWave)" stroke-width="4" fill="none" opacity="0.6" class="its-line-1"/>
+			<path d="M0,400 Q400,300 800,400 T1200,400" stroke="url(#itsWave)" stroke-width="3" fill="none" opacity="0.5" class="its-line-2"/>
+			<path d="M0,600 Q200,500 400,600 T1200,600" stroke="url(#itsWave)" stroke-width="2" fill="none" opacity="0.4" class="its-line-3"/>
 		</svg>
 		
 		<!-- Floating Particles -->
@@ -310,19 +295,19 @@
 			
 			<!-- Enhanced Badge -->
 			<div class={`inline-flex items-center px-6 py-4 bg-gradient-to-r from-emerald-100/80 to-blue-100/80 dark:from-emerald-900/30 dark:to-blue-900/30 backdrop-blur-xl text-emerald-700 dark:text-emerald-300 rounded-full border border-emerald-200/50 dark:border-emerald-700/50 text-sm font-bold mb-8 transition-all duration-1000 ${mounted ? 'animate-slide-up-bounce' : 'opacity-0'} shadow-lg hover:shadow-2xl hover:scale-105`}>
-				<RotateCcw class="w-4 h-4 mr-3 rtl:ml-3 rtl:mr-0" />
-				<span class="mr-2 rtl:ml-2 rtl:mr-0 text-lg">🔄</span>
-				{($locale || 'en') === 'ar' ? 'تحليل مسار المركبات' : 'Swept Path Analysis'}
+				<Monitor class="w-4 h-4 mr-3 rtl:ml-3 rtl:mr-0" />
+				<span class="mr-2 rtl:ml-2 rtl:mr-0 text-lg">🚀</span>
+				{($locale || 'en') === 'ar' ? 'أنظمة النقل الذكية' : 'Intelligent Transport Systems'}
 			</div>
 			
 			<!-- Enhanced Title -->
 			<div class={`transition-all duration-1000 delay-200 ${mounted ? 'animate-slide-up-bounce' : 'opacity-0'}`}>
 				<h1 class="text-5xl lg:text-6xl xl:text-7xl font-black leading-tight mb-8">
 					<span class="block bg-gradient-to-r from-emerald-600 via-blue-600 to-purple-600 bg-clip-text text-transparent animate-gradient-flow bg-300%">
-						{($locale || 'en') === 'ar' ? 'تحليل مسار' : 'Swept Path'}
+						{($locale || 'en') === 'ar' ? 'أنظمة النقل الذكية' : 'Intelligent Transport'}
 					</span>
 					<span class="block text-2xl lg:text-3xl xl:text-4xl font-black text-slate-700 dark:text-slate-300 mt-6 animate-fade-in-delayed">
-						{($locale || 'en') === 'ar' ? 'المركبات' : 'Analysis'}
+						{($locale || 'en') === 'ar' ? '(ITS)' : 'Systems (ITS)'}
 					</span>
 				</h1>
 			</div>
@@ -331,8 +316,8 @@
 			<div class={`transition-all duration-1000 delay-400 ${mounted ? 'animate-slide-up-bounce' : 'opacity-0'}`}>
 				<p class="text-xl lg:text-2xl text-slate-600 dark:text-slate-300 leading-relaxed max-w-4xl mx-auto mb-8">
 					{($locale || 'en') === 'ar' 
-						? 'تحليل دقيق لمسارات المركبات لضمان الوصول الآمن والفعال لجميع أنواع المركبات'
-						: 'Precise vehicle path analysis ensuring safe and efficient access for all vehicle types'
+						? 'تمهيد الطريق بمبادرات متطورة باستخدام أنظمة النقل الذكية لتوجيه وتحكم المرور'
+						: 'Paving the way with initiatives using Intelligent Transport Systems (ITS) for traffic direction and control'
 					}
 				</p>
 				
@@ -389,12 +374,12 @@
 	<div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 		<div class="text-center mb-16">
 			<h2 class="text-3xl lg:text-4xl font-black text-slate-900 dark:text-white mb-4">
-				{($locale || 'en') === 'ar' ? 'خدمات تحليل مسار المركبات' : 'Swept Path Analysis Services'}
+				{($locale || 'en') === 'ar' ? 'خدمات أنظمة النقل الذكية' : 'Intelligent Transport Systems Services'}
 			</h2>
 			<p class="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
 				{($locale || 'en') === 'ar'
-					? 'حلول متخصصة لتحليل مسارات المركبات وضمان الوصول الآمن لجميع أنواع المركبات'
-					: 'Specialized solutions for vehicle path analysis ensuring safe access for all vehicle types'
+					? 'حلول تقنية متطورة لتحسين كفاءة أنظمة النقل وتوفير معلومات شاملة لجميع مستخدمي الطريق'
+					: 'Advanced technology solutions to improve transport system efficiency and provide comprehensive information for all road users'
 				}
 			</p>
 		</div>
@@ -486,7 +471,7 @@
 				{($locale || 'en') === 'ar' ? 'فوائد خدماتنا' : 'Benefits of Our Services'}
 			</h2>
 			<p class="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
-				{($locale || 'en') === 'ar' ? 'اكتشف كيف يمكن لتحليل مسار المركبات أن يحسن من أمان وكفاءة مشروعك' : 'Discover how Swept Path Analysis can enhance your project safety and efficiency'}
+				{($locale || 'en') === 'ar' ? 'اكتشف كيف يمكن لأنظمة النقل الذكية أن تحسن من كفاءة مشروعك' : 'Discover how Intelligent Transport Systems can enhance your project efficiency'}
 			</p>
 		</div>
 
@@ -509,9 +494,9 @@
 						<!-- Fallback -->
 						<div class="absolute inset-0 bg-gradient-to-br from-emerald-100 via-blue-50 to-emerald-200 dark:from-emerald-900/30 dark:via-blue-900/20 dark:to-emerald-800/30 flex items-center justify-center" style="display: none;">
 							<div class="text-center">
-								<div class="text-6xl mb-4">🔄</div>
+								<div class="text-6xl mb-4">🚀</div>
 								<div class="text-emerald-600 dark:text-emerald-400 font-bold">
-									{($locale || 'en') === 'ar' ? 'فائدة تحليل' : 'Analysis Benefit'}
+									{($locale || 'en') === 'ar' ? 'فائدة ذكية' : 'Smart Benefit'}
 								</div>
 							</div>
 						</div>
@@ -541,12 +526,12 @@
 
 	<div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 		<h2 class="text-3xl lg:text-4xl font-black text-slate-900 dark:text-white mb-4">
-			{($locale || 'en') === 'ar' ? 'هل تحتاج تحليل مسار المركبات لمشروعك؟' : 'Need Swept Path Analysis for Your Project?'}
+			{($locale || 'en') === 'ar' ? 'هل تريد تطبيق أنظمة النقل الذكية في مشروعك؟' : 'Ready to Implement Intelligent Transport Systems?'}
 		</h2>
 		<p class="text-xl text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
 			{($locale || 'en') === 'ar'
-				? 'خبراؤنا في تحليل مسار المركبات جاهزون لضمان الوصول الآمن والفعال لجميع أنواع المركبات'
-				: 'Our swept path analysis experts are ready to ensure safe and efficient access for all vehicle types'
+				? 'فريقنا المتخصص في أنظمة النقل الذكية جاهز لمساعدتك في تطوير حلول تقنية متطورة لمشروعك'
+				: 'Our ITS specialists team is ready to help you develop advanced technology solutions for your project'
 			}
 		</p>
 		
@@ -736,13 +721,8 @@
 		}
 	}
 
-	@keyframes path-line-flow {
+	@keyframes its-line-flow {
 		0% { stroke-dashoffset: 0; }
-		100% { stroke-dashoffset: -100; }
-	}
-
-	@keyframes vehicle-path {
-		0% { stroke-dashoffset: 100; }
 		100% { stroke-dashoffset: -100; }
 	}
 	
@@ -763,22 +743,21 @@
 	.animate-light-ray-slow { animation: light-ray-slow 12s ease-in-out infinite; }
 	.animate-count-up-advanced { animation: count-up-advanced 1s ease-out; }
 	.animate-fade-in-delayed { animation: fade-in-delayed 2s ease-out; }
-	.animate-vehicle-path { animation: vehicle-path 8s ease-in-out infinite; }
 	
-	/* Path Animation */
-	.path-line-1 {
+	/* ITS Animation */
+	.its-line-1 {
 		stroke-dasharray: 20 10;
-		animation: path-line-flow 4s linear infinite;
+		animation: its-line-flow 4s linear infinite;
 	}
 	
-	.path-line-2 {
+	.its-line-2 {
 		stroke-dasharray: 15 8;
-		animation: path-line-flow 5s linear infinite reverse;
+		animation: its-line-flow 5s linear infinite reverse;
 	}
 	
-	.path-line-3 {
+	.its-line-3 {
 		stroke-dasharray: 10 5;
-		animation: path-line-flow 6s linear infinite;
+		animation: its-line-flow 6s linear infinite;
 	}
 
 	/* Utility Classes */
@@ -794,8 +773,7 @@
 	.animate-float-slow,
 	.animate-float-reverse,
 	.animate-pulse-subtle,
-	.animate-gradient-flow,
-	.animate-vehicle-path {
+	.animate-gradient-flow {
 		will-change: transform;
 		transform: translateZ(0);
 	}
