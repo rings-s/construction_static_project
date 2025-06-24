@@ -77,15 +77,28 @@ export default {
           },
         },
         fontFamily: {
-          'sans': ['Inter', 'system-ui', 'sans-serif'],
-          'display': ['Inter', 'system-ui', 'sans-serif'],
-          'arabic': ['Cairo', 'Noto Sans Arabic', 'system-ui', 'sans-serif'],
-          'arabic-display': ['Readex Pro', 'Cairo', 'sans-serif'],
+          // English fonts
+          'sans': ['Poppins', 'DM Sans', 'system-ui', 'sans-serif'],
+          'display': ['Poppins', 'DM Sans', 'system-ui', 'sans-serif'],
+          
+          // Arabic fonts
+          'arabic': ['Cairo', 'Almarai', 'Tajawal', 'Noto Sans Arabic', 'system-ui', 'sans-serif'],
+          'arabic-display': ['Cairo', 'Almarai', 'system-ui', 'sans-serif'],
+          
+          // Combined (for mixed content)
+          'mixed': ['Cairo', 'Poppins', 'system-ui', 'sans-serif'],
         },
         animation: {
           'float': 'float 6s ease-in-out infinite',
           'gradient': 'gradient 15s ease infinite',
           'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          'bounce-slow': 'bounce 3s infinite',
+          'spin-slow': 'spin 3s linear infinite',
+          'float-up': 'float-up 8s linear infinite',
+        },
+        backgroundImage: {
+          'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+          'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         },
       },
     },
